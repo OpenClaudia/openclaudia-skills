@@ -284,6 +284,15 @@ OpenClaudia is part of a growing ecosystem of AI agent tools:
 - [GEO Guide](https://howtowingeo.com) — how to win at Generative Engine Optimization
 - [PageGun](https://pagegun.com) — AI-powered CMS for content publishing
 
+## Sponsors
+
+OpenClaudia is proudly sponsored by:
+
+- [ChatSlide.ai](https://chatslide.ai) — AI-powered presentation maker
+- [Enception.ai](https://enception.ai) — AI marketing agency
+- [SaySo.ai](https://sayso.ai) — AI voice agents
+- [MakeForm.ai](https://makeform.ai) — AI form builder
+
 ## License
 
 MIT — see [LICENSE](LICENSE)
