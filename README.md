@@ -292,6 +292,7 @@ OpenClaudia is proudly sponsored by:
 - [Enception.ai](https://enception.ai) — AI marketing agency
 - [SaySo.ai](https://sayso.ai) — AI voice agents
 - [MakeForm.ai](https://makeform.ai) — AI form builder
+- [Michelin Key Hotels](https://michelinkeyhotels.com) — Luxury Michelin Guide hotel discovery platform
 
 ## License
 
