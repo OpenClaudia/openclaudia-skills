@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The open-source marketing toolkit for AI coding agents.</strong><br/>
-  56+ modular skills that turn Claude Code into a full marketing department.
+  62+ modular skills that turn Claude Code into a full marketing department.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 56+ marketing skills
+# Install all 62+ marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
@@ -93,6 +93,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `backlink-audit` | Audit backlink profile and find opportunities |
 | `schema-markup` | Generate and validate Schema.org structured data |
 | `programmatic-seo` | Create SEO-optimized pages at scale |
+| `ahrefs-research` | Ahrefs Python SDK for backlinks, keywords, domain ratings, and traffic |
 
 ### Content Writing
 | Skill | Description |
@@ -137,9 +138,11 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 |-------|-------------|--------------|
 | `semrush-research` | SEO & competitive intelligence via SemRush | `SEMRUSH_API_KEY` |
 | `brand-monitor` | Brand monitoring via Brand.dev | `BRANDDEV_API_KEY` |
+| `brand-research` | Fetch brand info, logos, and industry data via Brand.dev | `BRANDDEV_API_KEY` |
 | `google-analytics` | Pull GA4 reports and insights | Google OAuth |
 | `search-console` | Google Search Console data & analysis | Google OAuth |
 | `google-ads-report` | Google Ads performance reporting | Google OAuth |
+| `google-reviews` | Google Maps ratings, review counts, and competitor analysis | `DATAFORSEO_LOGIN` |
 | `youtube-analytics` | YouTube channel and video performance analysis | `YOUTUBE_API_KEY` |
 
 ### Strategy & Planning
@@ -162,6 +165,13 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `slack-bot` | Post rich Block Kit messages and updates to Slack | `SLACK_WEBHOOK_URL` or `SLACK_BOT_TOKEN` |
 | `telegram-bot` | Send formatted posts, polls, and media to Telegram | `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` |
 | `feishu-lark` | Post interactive cards and updates to Feishu/Lark | `FEISHU_WEBHOOK_URL` or `FEISHU_APP_ID` |
+
+### Content Assets
+| Skill | Description | API Required |
+|-------|-------------|--------------|
+| `stock-images` | Search Unsplash for stock photos with optional text overlay | `UNSPLASH_CLIENT_ID` |
+| `ai-image-gen` | Generate images from text prompts via OpenAI or Stability AI | `OPENAI_API_KEY` |
+| `i18n` | Add full i18n to Next.js — 14+ locales, hreflang sitemaps, bulk translation | None |
 
 ### Growth & Automation
 | Skill | Description |
@@ -209,7 +219,13 @@ BRANDDEV_API_KEY=your_key_here
 GOOGLE_CLIENT_ID=your_client_id
 GOOGLE_CLIENT_SECRET=your_client_secret
 
-# Unsplash (write-blog, social-content — featured images)
+# OpenAI (ai-image-gen)
+OPENAI_API_KEY=your_key_here
+
+# Stability AI (ai-image-gen — alternative to OpenAI)
+STABILITY_API_KEY=your_key_here
+
+# Unsplash (stock-images, write-blog, social-content — featured images)
 UNSPLASH_CLIENT_ID=your_access_key
 
 # Reddit (social-content — trending topics)
