@@ -44,13 +44,18 @@ Match the project's existing asset conventions:
 - **If no convention exists**: create a `logos/` directory under the project's static asset root
 
 ### Naming Convention
-- `<brand-slug>.<ext>` — lowercase brand name, spaces replaced by hyphens
-- Optionally group by context subdirectory (e.g., `partners/`, `customers/`)
+- `<brand-slug>.<ext>` — lowercase brand name, spaces replaced by hyphens (e.g., `miss-a` not `miss_a`)
+- Optionally group by context subdirectory (e.g., `partners/`, `customers/`) if the project has multiple logo collections
 
 ### Download Command
 ```bash
 mkdir -p <logo-dir>
 curl -sL "<logo-url>" -o "<logo-dir>/<brand-slug>.<ext>"
+```
+
+### Verify Download
+```bash
+ls -la <logo-dir>/<brand-slug>.<ext>
 ```
 
 ## Step 4: Return Results
@@ -59,7 +64,7 @@ Provide the user with:
 - Brand name
 - Description
 - Industry
-- **Local logo path** — the path to use in code
+- **Local logo path** — the path to use in code (relative to the project's static root)
 - Original source URL (for reference only)
 
 ## Important Rules

@@ -42,7 +42,10 @@ The SDK has 52 methods across 7 API sections. Use the built-in search to find th
 ```python
 from ahrefs.search import search_api_methods
 
+# Returns formatted text with method signatures, parameters, and return types
 print(search_api_methods("domain rating"))
+
+# Filter by API section and limit results
 print(search_api_methods("backlinks", section="site-explorer", limit=3))
 ```
 
@@ -84,8 +87,9 @@ import os, ahrefs
 
 with ahrefs.AhrefsClient(
     api_key=os.environ["AHREFS_API_KEY"],
-    timeout=30.0,      # request timeout in seconds (default: 60)
-    max_retries=3,      # retries on transient errors (default: 2)
+    base_url="...",         # override API base URL (default: https://api.ahrefs.com/v3)
+    timeout=30.0,           # request timeout in seconds (default: 60)
+    max_retries=3,          # retries on transient errors (default: 2)
 ) as client:
     ...
 ```
@@ -105,6 +109,8 @@ async with AsyncAhrefsClient(api_key=os.environ["AHREFS_API_KEY"]) as client:
 
 ### Calling Methods
 
+Two calling styles — both are equivalent:
+
 ```python
 # Keyword arguments (recommended)
 data = client.site_explorer_domain_rating(target="ahrefs.com", date="2025-01-15")
@@ -117,7 +123,18 @@ data = client.site_explorer_domain_rating(request)
 
 Method names follow `{api_section}_{endpoint}`, e.g. `site_explorer_organic_keywords`, `keywords_explorer_overview`.
 
-### List Endpoints
+### Responses
+
+Methods return typed Data objects directly.
+
+**Scalar endpoints** return a single data object (or `None`):
+
+```python
+data = client.site_explorer_domain_rating(target="ahrefs.com", date="2025-01-15")
+print(data.domain_rating)
+```
+
+**List endpoints** return a list of data objects. There is no pagination — set `limit` to the number of results you need. Use `select` to request only the columns you need:
 
 ```python
 items = client.site_explorer_organic_keywords(
@@ -144,11 +161,13 @@ except ahrefs.RateLimitError as e:    # 429 — e.retry_after has the delay
     ...
 except ahrefs.NotFoundError:          # 404
     ...
-except ahrefs.APIError as e:          # other 4xx/5xx
+except ahrefs.APIError as e:          # other 4xx/5xx — e.status_code, e.response_body
     ...
 except ahrefs.APIConnectionError:     # network / timeout
     ...
 ```
+
+All exceptions inherit from `ahrefs.AhrefsError`.
 
 ### Common Parameters
 
@@ -163,7 +182,11 @@ except ahrefs.APIConnectionError:     # network / timeout
 | `order_by` | `str` | Column and direction, e.g. `"volume:desc"` |
 | `limit` | `int` | Max results to return |
 
+Parameters typed as enums in the API reference (`CountryEnum`, `VolumeModeEnum`, etc.) accept plain strings — pass `country="us"` not `CountryEnum("us")`.
+
 ### Filtering with `where`
+
+The `where` parameter takes a JSON string. Use `json.dumps()` to build it:
 
 ```python
 import json
@@ -173,3 +196,7 @@ items = client.site_explorer_organic_keywords(
     select="keyword,volume", where=where,
 )
 ```
+
+## API Methods
+
+Use `search_api_methods("query")` or `python3 -m ahrefs.api_search "query"` to find methods by keyword. Search covers all 52 methods across 7 API sections and returns complete signatures, parameters, and response fields.

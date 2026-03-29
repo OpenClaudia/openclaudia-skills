@@ -118,6 +118,7 @@ export const config = {
 import createNextIntlPlugin from 'next-intl/plugin'
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
+// ... existing config ...
 export default withNextIntl(nextConfig)
 ```
 
@@ -252,3 +253,9 @@ Add a language switcher using `useRouter` and `usePathname` from `@/i18n/navigat
 - **`localeDetection: false`** prevents unwanted redirects that break SEO
 - **Large translation files** (5000+ lines) can make git pushes fail — use `git config http.postBuffer 524288000`
 - **Verify translations** — automated translation often produces mixed-language output
+
+## Locale Count Reference
+
+- 14 locales x N pages = 14N static pages at build time
+- Each locale JSON file is typically 2-5x the size of en.json (CJK characters, verbose languages)
+- Build time increases linearly with locale count

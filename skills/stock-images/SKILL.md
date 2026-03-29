@@ -19,8 +19,6 @@ Search Unsplash for images, download them, and optionally add text overlay.
 
 ### Search and Download
 
-Write a Python script or use the Unsplash API directly:
-
 ```python
 import os, requests, random
 
@@ -44,7 +42,9 @@ def download_photo(photo, output_path):
     resp.raise_for_status()
     with open(output_path, "wb") as f:
         f.write(resp.content)
-    # Unsplash requires attribution
+    # Trigger download tracking (required by Unsplash API terms)
+    requests.get(photo["links"]["download_location"],
+                 params={"client_id": os.environ["UNSPLASH_CLIENT_ID"]})
     print(f"Photo by {photo['user']['name']} on Unsplash")
 
 # Example: search and download a random matching photo
@@ -103,9 +103,11 @@ When building a script, support these options:
 | `--title` | Title text to overlay on the image |
 | `--subtitle` | Subtitle text (only used with --title) |
 | `--list` | List results without downloading |
+| `--count` | Number of results to fetch, max 30 (default: 30) |
 
 ## Important Notes
 
 - **Attribution required**: Unsplash requires crediting the photographer. Always include `Photo by {name} on Unsplash` in your output.
+- **Download tracking**: Trigger the download endpoint as required by Unsplash API terms.
 - **Rate limits**: 50 requests/hour for demo apps, 5000/hour for production apps.
 - **Image sizes**: `raw` (original), `full` (high-res), `regular` (1080px wide), `small` (400px), `thumb` (200px).

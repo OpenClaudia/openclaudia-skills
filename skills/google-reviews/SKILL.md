@@ -16,18 +16,16 @@ Fetch Google Maps review data for any business using the [DataForSEO](https://da
 
 ## Usage
 
-### Fetch Reviews via DataForSEO API
+### Single Business
 
 ```bash
-# Search for a business on Google Maps
-curl -s -X POST "https://api.dataforseo.com/v3/serp/google/maps/live/advanced" \
+curl -s -X POST "https://api.dataforseo.com/v3/business_data/google/my_business_info/live" \
   -u "${DATAFORSEO_LOGIN}:${DATAFORSEO_PASSWORD}" \
   -H "Content-Type: application/json" \
   -d '[{
     "keyword": "Business Name",
-    "location_name": "City, State, Country",
-    "language_code": "en",
-    "depth": 1
+    "location_name": "City,State,Country",
+    "language_code": "en"
   }]'
 ```
 
@@ -51,6 +49,8 @@ For comparing multiple businesses, loop through a list and collect results into 
 | Business A | 4.5 | 1,234 | Restaurant |
 | Business B | 3.8 | 567 | Restaurant |
 
+Add a 200ms delay between requests to avoid rate limits.
+
 ## Output Format
 
 Return results as structured JSON for single lookups, or as a markdown table for batch comparisons. Always include:
@@ -60,9 +60,25 @@ Return results as structured JSON for single lookups, or as a markdown table for
 - Rating distribution (1-5 star breakdown)
 - Address and category
 
+## Location Format
+
+Use the DataForSEO location format: `City,State/Province,Country`
+
+Examples:
+- `Vancouver,British Columbia,Canada`
+- `Toronto,Ontario,Canada`
+- `New York,New York,United States`
+- `London,England,United Kingdom`
+
 ## Use Cases
 
 - **Reputation audit** — check a client's Google rating before a proposal
 - **Competitor analysis** — compare ratings across competing businesses
 - **Local SEO** — monitor Google Maps presence and review velocity
 - **Due diligence** — research businesses before partnerships
+
+## Important Notes
+
+- DataForSEO charges per API call — be mindful with large batches
+- The API returns the first matching business for the keyword + location
+- Results are synchronous (returned immediately)
