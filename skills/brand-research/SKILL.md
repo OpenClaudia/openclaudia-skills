@@ -4,6 +4,7 @@ description: >
   Fetch brand info (name, description, logos, colors, industry) from the brand.dev API.
   Use when asked to look up a brand, fetch a company logo, get brand details, research
   a company's visual identity, or find brand assets for a project.
+user_invocable: true
 ---
 
 # Brand Research
@@ -29,7 +30,7 @@ curl -s "https://api.brand.dev/v1/brand/retrieve?domain=${DOMAIN}" \
 Extract from the response:
 - **Brand name** (`.brand.title` or `.brand.name`)
 - **Description** (`.brand.description`)
-- **Logo URLs** (from `.brand.logos[]`) — prefer icon/square logos for card layouts, full logos for headers
+- **Logo URLs** (from `.brand.logos[]`) -- prefer icon/square logos for card layouts, full logos for headers
 - **Industry/category** if available
 
 ## Step 3: Download Logos Locally
@@ -44,7 +45,7 @@ Match the project's existing asset conventions:
 - **If no convention exists**: create a `logos/` directory under the project's static asset root
 
 ### Naming Convention
-- `<brand-slug>.<ext>` — lowercase brand name, spaces replaced by hyphens (e.g., `miss-a` not `miss_a`)
+- `<brand-slug>.<ext>` -- lowercase brand name, spaces replaced by hyphens (e.g., `miss-a` not `miss_a`)
 - Optionally group by context subdirectory (e.g., `partners/`, `customers/`) if the project has multiple logo collections
 
 ### Download Command
@@ -64,13 +65,13 @@ Provide the user with:
 - Brand name
 - Description
 - Industry
-- **Local logo path** — the path to use in code (relative to the project's static root)
+- **Local logo path** -- the path to use in code (relative to the project's static root)
 - Original source URL (for reference only)
 
 ## Important Rules
 
-1. **Always save images locally** — never use `media.brand.dev` URLs directly in production code.
-2. **Use local paths in code** — reference relative to the project's static asset serving root.
+1. **Always save images locally** -- never use `media.brand.dev` URLs directly in production code.
+2. **Use local paths in code** -- reference relative to the project's static asset serving root.
 3. **Prefer square/icon logos** for card layouts (they fit better in grid cards).
 4. **Prefer full/horizontal logos** for headers and hero sections.
 5. If the brand has no logos in the API response, note this and suggest using a fallback icon.

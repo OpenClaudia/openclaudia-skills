@@ -33,11 +33,11 @@ curl -s -X POST "https://api.dataforseo.com/v3/business_data/google/my_business_
 
 From the API response, extract:
 - **Business name** (`title`)
-- **Rating** (`rating.value`) — e.g., 4.2
-- **Review count** (`rating.votes_count`) — e.g., 677
-- **Rating distribution** (`rating.rating_distribution`) — breakdown by 1-5 stars
-- **Address** — full street address
-- **Category** — business type (e.g., "Car dealer", "Restaurant")
+- **Rating** (`rating.value`) -- e.g., 4.2
+- **Review count** (`rating.votes_count`) -- e.g., 677
+- **Rating distribution** (`rating.rating_distribution`) -- breakdown by 1-5 stars
+- **Address** -- full street address
+- **Category** -- business type (e.g., "Car dealer", "Restaurant")
 - **Website URL**
 
 ### Batch Mode
@@ -72,13 +72,13 @@ Examples:
 
 ## Use Cases
 
-- **Reputation audit** — check a client's Google rating before a proposal
-- **Competitor analysis** — compare ratings across competing businesses
-- **Local SEO** — monitor Google Maps presence and review velocity
-- **Due diligence** — research businesses before partnerships
+- **Reputation audit** -- check a client's Google rating before a proposal
+- **Competitor analysis** -- compare ratings across competing businesses
+- **Local SEO** -- monitor Google Maps presence and review velocity
+- **Due diligence** -- research businesses before partnerships
 
 ## Important Notes
 
-- DataForSEO charges per API call — be mindful with large batches
+- DataForSEO charges per API call -- be mindful with large batches
 - The API returns the first matching business for the keyword + location
 - Results are synchronous (returned immediately)

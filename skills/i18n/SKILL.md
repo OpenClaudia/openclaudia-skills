@@ -5,6 +5,7 @@ description: >
   Supports 14+ languages, SEO-friendly locale routing, hreflang sitemaps, and bulk
   translation. Use when asked to "internationalize", "add i18n", "add translations",
   "multi-language", "localize", "add language support", or "translate my site".
+user_invocable: true
 ---
 
 # Internationalize a Next.js Project
@@ -13,7 +14,7 @@ Add complete internationalization to a Next.js (App Router) project using **next
 
 ## Step 1: Assess the Project
 
-1. Check Next.js version (`package.json`) — must be 13+ with App Router
+1. Check Next.js version (`package.json`) -- must be 13+ with App Router
 2. Check if i18n is already partially set up (look for `next-intl`, `next-i18next`, `[locale]` routes)
 3. Identify all pages/routes that need translation
 4. Identify all user-facing strings (hardcoded text in components)
@@ -110,9 +111,11 @@ export const config = {
 }
 ```
 
-**Key decision**: `localeDetection: false` prevents auto-redirecting users based on browser language. This keeps English URLs stable for SEO.
+**Key decision**: `localeDetection: false` prevents auto-redirecting users based on browser language. This keeps English URLs stable for SEO. Users can manually switch languages via a language selector.
 
 ## Step 5: Update next.config
+
+Wrap the existing config with `createNextIntlPlugin`:
 
 ```typescript
 import createNextIntlPlugin from 'next-intl/plugin'
@@ -238,7 +241,7 @@ Add a language switcher using `useRouter` and `usePathname` from `@/i18n/navigat
 
 ## Step 11: Verify
 
-1. `npm run build` — check all static pages generate correctly
+1. `npm run build` -- check all static pages generate correctly
 2. English URLs have no prefix: `/tools`
 3. Locale URLs have prefix: `/es/tools`
 4. Sitemap has hreflang alternates
@@ -247,12 +250,12 @@ Add a language switcher using `useRouter` and `usePathname` from `@/i18n/navigat
 
 ## Common Pitfalls
 
-- **`public/sitemap.xml`** conflicts with dynamic `src/app/sitemap.ts` in dev — delete the static one
+- **`public/sitemap.xml`** conflicts with dynamic `src/app/sitemap.ts` in dev -- delete the static one
 - **Middleware matcher** must exclude `_next`, `api`, `sitemap`, `robots`, and static assets
-- **`localePrefix: 'as-needed'`** is critical — keeps default locale URLs clean for SEO continuity
+- **`localePrefix: 'as-needed'`** is critical -- keeps default locale URLs clean for SEO continuity
 - **`localeDetection: false`** prevents unwanted redirects that break SEO
-- **Large translation files** (5000+ lines) can make git pushes fail — use `git config http.postBuffer 524288000`
-- **Verify translations** — automated translation often produces mixed-language output
+- **Large translation files** (5000+ lines) can make git pushes fail -- use `git config http.postBuffer 524288000`
+- **Verify translations** -- automated translation often produces mixed-language output
 
 ## Locale Count Reference
 

@@ -53,9 +53,9 @@ generate_image_openai("minimalist cat icon", "./icon.png", background="transpare
 ### Size Options
 | Size | Best for |
 |------|----------|
-| `1024x1024` | Square — logos, icons, social media |
-| `1536x1024` | Wide — blog covers, banners, hero images |
-| `1024x1536` | Tall — mobile, stories, Pinterest |
+| `1024x1024` | Square -- logos, icons, social media |
+| `1536x1024` | Wide -- blog covers, banners, hero images |
+| `1024x1536` | Tall -- mobile, stories, Pinterest |
 
 ## Stability AI (Alternative)
 
