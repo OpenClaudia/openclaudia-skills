@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://openclaudia.com">Website</a> · <a href="#quick-start">Quick Start</a> · <a href="#skills">Skills</a> · <a href="https://github.com/OpenClaudia/openclaudia-skills/issues">Issues</a> · <a href="CONTRIBUTING.md">Contributing</a>
+  <a href="https://openclaudia.com">Website</a> · <a href="#quick-start">Quick Start</a> · <a href="USAGE.md">Usage Guide</a> · <a href="#skills">Skills</a> · <a href="https://github.com/OpenClaudia/openclaudia-skills/issues">Issues</a> · <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
 ---
