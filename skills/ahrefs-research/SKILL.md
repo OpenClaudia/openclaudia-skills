@@ -208,7 +208,7 @@ items = client.site_explorer_organic_keywords(
 )
 ```
 
-For full filter syntax (boolean combinators, operators, nested fields), see the Ahrefs API documentation.
+For full filter syntax (boolean combinators, operators, nested fields), see `references/filter-syntax.md`.
 
 ## API Methods
 
