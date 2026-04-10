@@ -1,24 +1,20 @@
 ---
 name: i18n
-description: >
-  Add full internationalization (i18n) to a Next.js project using next-intl.
-  Supports 14+ languages, SEO-friendly locale routing, hreflang sitemaps, and bulk
-  translation. Use when asked to "internationalize", "add i18n", "add translations",
-  "multi-language", "localize", "add language support", or "translate my site".
+description: Add full internationalization (i18n) to a Next.js project using next-intl. Supports 14+ languages, SEO-friendly locale routing, hreflang sitemaps, and bulk translation. Use when the user asks to "internationalize", "add i18n", "add translations", "multi-language", "localize", "add language support", or "translate my site".
 user_invocable: true
 ---
 
 # Internationalize a Next.js Project
 
-Add complete internationalization to a Next.js (App Router) project using **next-intl v4**. Handles routing, translation files, sitemap hreflang, and bulk translation across all locales.
+Add complete internationalization to a Next.js (App Router) project using **next-intl v4**. This skill handles routing, translation files, sitemap hreflang, and bulk translation across all locales.
 
 ## Step 1: Assess the Project
 
-1. Check Next.js version (`package.json`) -- must be 13+ with App Router
+1. Check the Next.js version (`package.json`) — must be 13+ with App Router
 2. Check if i18n is already partially set up (look for `next-intl`, `next-i18next`, `[locale]` routes)
 3. Identify all pages/routes that need translation
 4. Identify all user-facing strings (hardcoded text in components)
-5. Ask the user which locales to support (default: en, es, fr, de, pt, ja, ar, zh, zh-tw, id, vi, ms, ru, hi)
+5. Ask the user which locales to support (default recommendation: en, es, fr, de, pt, ja, ar, zh, zh-tw, id, vi, ms, ru, hi)
 
 ## Step 2: Install Dependencies
 
@@ -144,13 +140,13 @@ Move all page content under `src/app/[locale]/`:
 1. Create `src/messages/en.json` with all user-facing strings organized by section:
    ```json
    {
-     "common": { "signIn": "Sign In" },
+     "common": { "signIn": "Sign In", ... },
      "tools": { "tool-slug": { "title": "...", "description": "..." } },
      "faq": { "tool-slug": [{ "question": "...", "answer": "..." }] }
    }
    ```
 
-2. Replace hardcoded strings with `useTranslations()`:
+2. Replace all hardcoded strings in components with `useTranslations()`:
    ```typescript
    const t = useTranslations('common')
    return <button>{t('signIn')}</button>
@@ -165,16 +161,26 @@ Move all page content under `src/app/[locale]/`:
 
 For each non-English locale, create `src/messages/{locale}.json` with the same structure as `en.json`.
 
-### Translation Tips
+### Translation Strategy
 
-- Translate naturally, not literally
-- Keep technical terms in English (PowerPoint, PDF, API, etc.)
-- Preserve JSON structure exactly (same keys, same nesting)
-- Preserve interpolation variables like `{count}`, `{name}` unchanged
+Use **parallel Codex agents** via the `codex-tasks` skill to save Claude credits:
 
-### Verification Script
+1. Launch one Codex task per locale (up to 7 in parallel) using `/codex-tasks`
+2. Each task reads `en.json`, translates all strings, writes `{locale}.json`
+3. Codex prompt should include:
+   - The full `en.json` content (or path to read it)
+   - Target language name and locale code
+   - Instructions:
+     - Translate naturally, not literally
+     - Keep technical terms in English (PowerPoint, PDF, API, etc.)
+     - Preserve JSON structure exactly (same keys, same nesting)
+     - Preserve interpolation variables like `{count}`, `{name}` unchanged
+     - Write the result to `src/messages/{locale}.json`
+4. After Codex tasks complete, **verify the results** using the verification script below — Codex output quality varies and must be checked
 
-After translation, verify quality:
+### Verification
+
+After translation, run a verification script to catch issues:
 
 ```python
 import json
@@ -189,11 +195,13 @@ for loc in locales:
     with open(f'src/messages/{loc}.json') as f:
         data = json.load(f)
 
+    # Check: missing sections
     missing = [s for s in en if s not in data]
 
+    # Check: residual English content
     eng_count = 0
     def check(d):
-        nonlocal eng_count
+        nonlocal eng_count  # won't work in inline script; use list trick
         if isinstance(d, dict):
             for v in d.values(): check(v)
         elif isinstance(d, str):
@@ -207,7 +215,7 @@ for loc in locales:
 
 ## Step 9: Update Sitemap with Hreflang
 
-Update `src/app/sitemap.ts`:
+Update `src/app/sitemap.ts` to include hreflang alternates:
 
 ```typescript
 import { MetadataRoute } from 'next'
@@ -233,29 +241,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
 }
 ```
 
-Generate one canonical URL per page with hreflang alternates, NOT one URL per locale.
+**Important**: Generate one canonical URL per page with hreflang alternates, NOT one URL per locale. This prevents duplicate content in search results.
 
 ## Step 10: Add Language Selector (Optional)
 
-Add a language switcher using `useRouter` and `usePathname` from `@/i18n/navigation` to switch locales while preserving the current path.
+Add a language switcher component that uses `useRouter` and `usePathname` from `@/i18n/navigation` to switch locales while preserving the current path.
 
 ## Step 11: Verify
 
-1. `npm run build` -- check all static pages generate correctly
-2. English URLs have no prefix: `/tools`
-3. Locale URLs have prefix: `/es/tools`
-4. Sitemap has hreflang alternates
-5. RTL rendering works for Arabic
-6. Run the translation verification script
+1. Build the project: `npm run build` — check that all static pages generate correctly
+2. Test English URLs have no prefix: `https://example.com/tools`
+3. Test locale URLs have prefix: `https://example.com/es/tools`
+4. Verify sitemap has hreflang alternates
+5. Check RTL rendering for Arabic
+6. Run the translation verification script from Step 8
 
 ## Common Pitfalls
 
-- **`public/sitemap.xml`** conflicts with dynamic `src/app/sitemap.ts` in dev -- delete the static one
-- **Middleware matcher** must exclude `_next`, `api`, `sitemap`, `robots`, and static assets
-- **`localePrefix: 'as-needed'`** is critical -- keeps default locale URLs clean for SEO continuity
-- **`localeDetection: false`** prevents unwanted redirects that break SEO
-- **Large translation files** (5000+ lines) can make git pushes fail -- use `git config http.postBuffer 524288000`
-- **Verify translations** -- automated translation often produces mixed-language output
+- **`public/sitemap.xml`** conflicts with dynamic `src/app/sitemap.ts` in dev mode — delete the static one or rename it
+- **Middleware matcher** must exclude `_next`, `api`, `sitemap`, `robots`, and static asset paths
+- **`localePrefix: 'as-needed'`** is critical — it keeps default locale URLs clean for SEO continuity
+- **`localeDetection: false`** prevents unwanted redirects that break SEO and confuse users
+- **Large translation files** (5000+ lines per locale) can make git pushes fail — use `git config http.postBuffer 524288000`
+- **Verify translations thoroughly** — automated translation often produces mixed-language output; always verify with the English word detection script after Codex tasks complete
 
 ## Locale Count Reference
 

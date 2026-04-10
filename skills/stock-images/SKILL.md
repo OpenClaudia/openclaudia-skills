@@ -1,113 +1,109 @@
 ---
-name: stock-images
-description: >
-  Search Unsplash for stock photos and download them. Optionally add text overlay
-  (title/subtitle). Use when asked to find a stock photo, search for an image,
-  get an Unsplash image, or download a photo for a blog post, landing page, or social media.
+name: unsplash-image
+description: Search for images on Unsplash and download them. Optionally add text overlay (title/subtitle) to the image. Use when the user asks to find a stock photo, search for an image, get an Unsplash image, or download a photo with text.
+argument-hint: [search query]
+allowed-tools: Bash(*), Read, Write
 ---
 
-# Stock Images from Unsplash
+# Unsplash Image Search & Download
 
 Search Unsplash for images, download them, and optionally add text overlay.
 
-## Prerequisites
+## Tool Location
 
-- **Unsplash API key** in `UNSPLASH_CLIENT_ID` environment variable (register at unsplash.com/developers)
-- **Python 3** with `requests` and `Pillow` (for text overlay)
+- Script: `~/.agents/tools/unsplash-search.py`
+- Env file: `~/.agents/tools/.env` (contains `UNSPLASH_CLIENT_ID`)
 
-## Usage
+## Quick Usage
 
-### Search and Download
+### Search and download a random matching image
 
-```python
-import os, requests, random
-
-def search_unsplash(query, orientation=None, count=30):
-    """Search Unsplash and return photo results."""
-    params = {
-        "query": query,
-        "per_page": count,
-        "client_id": os.environ["UNSPLASH_CLIENT_ID"],
-    }
-    if orientation:
-        params["orientation"] = orientation  # landscape, portrait, squarish
-    resp = requests.get("https://api.unsplash.com/search/photos", params=params)
-    resp.raise_for_status()
-    return resp.json()["results"]
-
-def download_photo(photo, output_path):
-    """Download a photo's regular-size image."""
-    url = photo["urls"]["regular"]
-    resp = requests.get(url)
-    resp.raise_for_status()
-    with open(output_path, "wb") as f:
-        f.write(resp.content)
-    # Trigger download tracking (required by Unsplash API terms)
-    requests.get(photo["links"]["download_location"],
-                 params={"client_id": os.environ["UNSPLASH_CLIENT_ID"]})
-    print(f"Photo by {photo['user']['name']} on Unsplash")
-
-# Example: search and download a random matching photo
-results = search_unsplash("nature landscape", orientation="landscape")
-photo = random.choice(results)
-download_photo(photo, "./image.jpg")
+```bash
+python ~/.agents/tools/unsplash-search.py \
+  --query "nature landscape" \
+  --output ./image.jpg
 ```
 
-### With Text Overlay
+### With orientation filter
 
-```python
-from PIL import Image, ImageDraw, ImageFont
-
-def add_text_overlay(image_path, title, subtitle=None, output_path=None):
-    """Add title/subtitle overlay to an image."""
-    img = Image.open(image_path)
-    draw = ImageDraw.Draw(img)
-    width, height = img.size
-
-    # Semi-transparent overlay at bottom
-    overlay_height = height // 4
-    overlay = Image.new("RGBA", (width, overlay_height), (0, 0, 0, 128))
-    img.paste(overlay, (0, height - overlay_height), overlay)
-
-    # Title text
-    try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 48)
-        small_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28)
-    except OSError:
-        font = ImageFont.load_default()
-        small_font = font
-
-    title_y = height - overlay_height + 20
-    draw.text((40, title_y), title, fill="white", font=font)
-
-    if subtitle:
-        draw.text((40, title_y + 60), subtitle, fill=(200, 200, 200), font=small_font)
-
-    out = output_path or image_path
-    img.save(out)
-
-add_text_overlay("./image.jpg", "My Blog Post Title", "A short description")
+```bash
+python ~/.agents/tools/unsplash-search.py \
+  --query "coffee shop" \
+  --orientation landscape \
+  --output ./coffee.jpg
 ```
 
-## CLI Options to Support
+### With text overlay (title and subtitle)
 
-When building a script, support these options:
+```bash
+python ~/.agents/tools/unsplash-search.py \
+  --query "technology abstract" \
+  --output ./cover.png \
+  --title "My Blog Post Title" \
+  --subtitle "A short description"
+```
+
+### List results without downloading
+
+```bash
+python ~/.agents/tools/unsplash-search.py \
+  --query "sunset" \
+  --list
+```
+
+### Pick the first result instead of random
+
+```bash
+python ~/.agents/tools/unsplash-search.py \
+  --query "mountains" \
+  --pick first \
+  --output ./mountains.jpg
+```
+
+## CLI Options
 
 | Option | Description |
 |--------|-------------|
-| `--query` | Search query string (required) |
-| `--output` | Output file path (required unless listing) |
+| `--query, -q` | **(Required)** Search query string |
+| `--output, -o` | **(Required unless --list)** Output file path |
 | `--orientation` | Filter: `landscape`, `portrait`, or `squarish` |
-| `--color` | Color filter (e.g., `blue`, `green`, `black_and_white`) |
-| `--pick` | Selection mode: `random` (default) or `first` |
+| `--color` | Color filter (e.g., `blue`, `green`, `red`, `black_and_white`) |
+| `--pick` | How to select from results: `random` (default) or `first` |
 | `--title` | Title text to overlay on the image |
-| `--subtitle` | Subtitle text (only used with --title) |
-| `--list` | List results without downloading |
+| `--subtitle` | Subtitle text to overlay (only used with --title) |
+| `--list` | List search results instead of downloading |
 | `--count` | Number of results to fetch, max 30 (default: 30) |
 
-## Important Notes
+## Text Overlay
 
-- **Attribution required**: Unsplash requires crediting the photographer. Always include `Photo by {name} on Unsplash` in your output.
-- **Download tracking**: Trigger the download endpoint as required by Unsplash API terms.
-- **Rate limits**: 50 requests/hour for demo apps, 5000/hour for production apps.
-- **Image sizes**: `raw` (original), `full` (high-res), `regular` (1080px wide), `small` (400px), `thumb` (200px).
+When `--title` is provided, the script adds a text overlay to the bottom portion of the image with:
+- Semi-transparent dark background behind the text
+- White title text with shadow
+- Gray subtitle text (if provided)
+- Automatic word wrapping and font sizing
+
+**Requires Pillow**: `pip install Pillow`
+
+## Dependencies
+
+- `requests` (for API calls and image download)
+- `Pillow` (only needed if using text overlay with `--title`)
+
+Install if needed:
+```bash
+pip install requests Pillow
+```
+
+## Output
+
+The script prints:
+- The download URL
+- Photographer attribution (required by Unsplash)
+- The saved file path
+- Confirmation of text overlay if applied
+
+## Notes
+
+- Unsplash API guidelines require attribution. The script prints photographer info.
+- The script triggers Unsplash's download tracking endpoint as required by their API terms.
+- Images are downloaded at "regular" quality (1080px width). For higher resolution, modify the script to use `urls.full` or `urls.raw`.

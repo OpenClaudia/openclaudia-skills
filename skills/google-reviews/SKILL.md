@@ -1,84 +1,107 @@
 ---
 name: google-reviews
-description: >
-  Fetch Google Maps ratings, review counts, and rating distributions for any business
-  using the DataForSEO API. Use when asked to check Google reviews, compare business
-  ratings, audit Google Maps presence, or analyze competitor reviews.
+description: Fetch Google review ratings and review counts for businesses via DataForSEO API. Use when the user asks to check Google reviews, get review counts, compare business ratings, audit Google Maps presence, or analyze competitor reviews.
 ---
 
 # Google Reviews
 
-Fetch Google Maps review data for any business using the [DataForSEO](https://dataforseo.com) API.
+Fetch Google Maps ratings, review counts, and rating distributions for any business using the DataForSEO API.
 
-## Prerequisites
+## When to Use This Skill
 
-- **DataForSEO account** with `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` environment variables
+Use this skill when the user:
+
+- Asks to check Google reviews for a business
+- Wants to compare ratings across multiple businesses
+- Needs Google review counts for a report or analysis
+- Asks about a business's Google Maps presence
+- Wants to audit competitor reviews
+
+## Tool Location
+
+Global tools directory: `~/.agents/tools/`
+
+- Script: `~/.agents/tools/fetch-google-reviews.js`
+- Credentials: `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` in environment variables
 
 ## Usage
 
 ### Single Business
 
 ```bash
-curl -s -X POST "https://api.dataforseo.com/v3/business_data/google/my_business_info/live" \
-  -u "${DATAFORSEO_LOGIN}:${DATAFORSEO_PASSWORD}" \
-  -H "Content-Type: application/json" \
-  -d '[{
-    "keyword": "Business Name",
-    "location_name": "City,State,Country",
-    "language_code": "en"
-  }]'
+cd ~/.agents/tools && node fetch-google-reviews.js "Business Name" "City,Province,Country"
 ```
 
-### Extract Key Data
-
-From the API response, extract:
-- **Business name** (`title`)
-- **Rating** (`rating.value`) -- e.g., 4.2
-- **Review count** (`rating.votes_count`) -- e.g., 677
-- **Rating distribution** (`rating.rating_distribution`) -- breakdown by 1-5 stars
-- **Address** -- full street address
-- **Category** -- business type (e.g., "Car dealer", "Restaurant")
-- **Website URL**
+Example:
+```bash
+cd ~/.agents/tools && node fetch-google-reviews.js "Trust Auto Sales" "Richmond,British Columbia,Canada"
+```
 
 ### Batch Mode
 
-For comparing multiple businesses, loop through a list and collect results into a markdown comparison table:
+Create a JSON file with an array of businesses, then run:
 
-| Business | Rating | Reviews | Category |
-|----------|--------|---------|----------|
-| Business A | 4.5 | 1,234 | Restaurant |
-| Business B | 3.8 | 567 | Restaurant |
+```bash
+cd ~/.agents/tools && node fetch-google-reviews.js --batch /path/to/businesses.json
+```
 
-Add a 200ms delay between requests to avoid rate limits.
+JSON file format:
+```json
+[
+  {"keyword": "Business One", "location": "Vancouver,British Columbia,Canada"},
+  {"keyword": "Business Two"}
+]
+```
 
-## Output Format
+- `keyword` (required): Business name to search
+- `location` (optional): Defaults to "Richmond,British Columbia,Canada"
 
-Return results as structured JSON for single lookups, or as a markdown table for batch comparisons. Always include:
-- Business name
-- Star rating
-- Total review count
-- Rating distribution (1-5 star breakdown)
-- Address and category
+## Output
+
+### Single Business (JSON)
+
+```json
+{
+  "keyword": "Trust Auto Sales",
+  "title": "Trust Auto Sales",
+  "rating": 4.2,
+  "reviews": 677,
+  "rating_distribution": {"1": 117, "2": 7, "3": 3, "4": 19, "5": 531},
+  "address": "3691 Number 3 Rd, Richmond, BC V6X 2B8",
+  "category": "Car dealer",
+  "url": "https://trustauto.ca/"
+}
+```
+
+### Batch Mode
+
+Prints a markdown table followed by full JSON:
+
+```
+| Business | Rating | Reviews | Address |
+|----------|--------|---------|---------|
+| Trust Auto Sales | 4.2 | 677 | 3691 Number 3 Rd, Richmond, BC V6X 2B8 |
+```
 
 ## Location Format
 
-Use the DataForSEO location format: `City,State/Province,Country`
+Use the DataForSEO location format: `City,Province/State,Country`
 
 Examples:
+- `Richmond,British Columbia,Canada`
 - `Vancouver,British Columbia,Canada`
 - `Toronto,Ontario,Canada`
 - `New York,New York,United States`
-- `London,England,United Kingdom`
 
-## Use Cases
+## API Details
 
-- **Reputation audit** -- check a client's Google rating before a proposal
-- **Competitor analysis** -- compare ratings across competing businesses
-- **Local SEO** -- monitor Google Maps presence and review velocity
-- **Due diligence** -- research businesses before partnerships
+- Uses DataForSEO `business_data/google/my_business_info/live` endpoint
+- Synchronous (returns results immediately)
+- Returns first matching business for the keyword + location
+- Batch mode adds 200ms delay between requests to avoid rate limits
 
 ## Important Notes
 
+- If `npm install` hasn't been run yet: `cd ~/.agents/tools && npm install`
+- The script loads credentials from both local `.env` and environment variables
 - DataForSEO charges per API call -- be mindful with large batches
-- The API returns the first matching business for the keyword + location
-- Results are synchronous (returned immediately)

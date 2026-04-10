@@ -1,13 +1,9 @@
 ---
-name: ahrefs-research
-description: >
-  Use the Ahrefs Python SDK to pull SEO data -- backlinks, keywords, domain ratings,
-  organic traffic, site audits, rank tracking, and brand monitoring. Use when asked
-  to research competitors, find backlink opportunities, analyze organic keywords,
-  check domain authority, or do any Ahrefs-powered SEO research.
+name: ahrefs-python
+description: Manages Ahrefs API usage in Python using `ahrefs-python` library. Use when working with SEO / marketing related tasks or with data including backlinks, keywords, domain ratings, organic traffic, site audits, rank tracking, and brand monitoring. Covers `ahrefs-python` usage including AhrefsClient / AsyncAhrefsClient, typed request/response models, error handling, and all API sections.
 ---
 
-# Ahrefs SEO Research
+# Ahrefs Python SDK Skill
 
 ## Overview
 
@@ -32,7 +28,7 @@ Requires Python 3.11+. Dependencies: `httpx`, `pydantic`.
 
 ## API Method Discovery
 
-The SDK has 52 methods across 7 API sections. The built-in search tool is the fastest way to find the right method -- it returns matching method signatures, parameters, and return types directly, so there's no need to scan through a large reference.
+The SDK has 52 methods across 7 API sections. The built-in search tool is the fastest way to find the right method — it returns matching method signatures, parameters, and return types directly, so there's no need to scan through a large reference.
 
 **Python** (preferred when already in a Python context):
 
@@ -145,7 +141,7 @@ data = client.site_explorer_domain_rating(target="ahrefs.com", date="2025-01-15"
 print(data.domain_rating)
 ```
 
-**List endpoints** return a list of data objects. There is no pagination -- set `limit` to the number of results you need. Use `select` to request only the columns you need:
+**List endpoints** return a list of data objects. There is no pagination — set `limit` to the number of results you need. Use `select` to request only the columns you need:
 
 ```python
 items = client.site_explorer_organic_keywords(
@@ -195,7 +191,7 @@ Most list endpoints share these parameters:
 | `order_by` | `str` | Column and direction, e.g. `"volume:desc"` |
 | `limit` | `int` | Max results to return |
 
-Parameters typed as enums in the API reference (`CountryEnum`, `VolumeModeEnum`, etc.) accept plain strings -- pass `country="us"` not `CountryEnum("us")`.
+Parameters typed as enums in the API reference (`CountryEnum`, `VolumeModeEnum`, etc.) accept plain strings — pass `country="us"` not `CountryEnum("us")`.
 
 The `where` parameter takes a JSON string. Use `json.dumps()` to build it:
 

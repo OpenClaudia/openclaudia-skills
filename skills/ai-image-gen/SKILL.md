@@ -1,99 +1,110 @@
 ---
-name: ai-image-gen
-description: >
-  Generate images from text prompts using OpenAI GPT Image (gpt-image-1) or Stability AI
-  (SD 3.5 Large). Use when asked to generate an image, create AI art, make an illustration,
-  design a logo, or produce artwork from a text description.
+name: generate-image
+description: Generate images using AI (OpenAI GPT Image or Stability AI). Use when the user asks to generate an image, create an AI image, make an illustration, or produce artwork from a text prompt.
+argument-hint: [prompt description]
+allowed-tools: Bash(*), Read, Write
 ---
 
 # AI Image Generation
 
-Generate images from text prompts using OpenAI or Stability AI.
+Generate images from text prompts using OpenAI GPT Image (gpt-image-1) or Stability AI (SD 3.5 Large).
 
-## Prerequisites
+## Tool Location
 
-- **OpenAI API key** in `OPENAI_API_KEY` environment variable (for GPT Image)
-- **Stability AI API key** in `STABILITY_API_KEY` environment variable (optional, for Stable Diffusion)
-- **Python 3** with `requests` and `base64` (standard library)
+- Script: `~/.agents/tools/generate-image.py`
+- Env file: `~/.agents/tools/.env` (contains `OPENAI_API_KEY` and `STABILITY_API_KEY`)
 
-## OpenAI GPT Image (Recommended)
+## Quick Usage
 
-```python
-import os, requests, base64
+### Generate with OpenAI GPT Image (default)
 
-def generate_image_openai(prompt, output_path, size="1024x1024", quality="auto", background="auto"):
-    """Generate an image with OpenAI GPT Image (gpt-image-1)."""
-    resp = requests.post(
-        "https://api.openai.com/v1/images/generations",
-        headers={
-            "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": "gpt-image-1",
-            "prompt": prompt,
-            "n": 1,
-            "size": size,           # 1024x1024, 1536x1024 (wide), 1024x1536 (tall)
-            "quality": quality,     # "auto", "low", "medium", "high"
-            "background": background,  # "auto", "transparent", "opaque"
-        },
-    )
-    resp.raise_for_status()
-    img_b64 = resp.json()["data"][0]["b64_json"]
-    with open(output_path, "wb") as f:
-        f.write(base64.b64decode(img_b64))
-    print(f"Image saved to {output_path}")
-
-# Examples
-generate_image_openai("a sunset over mountains, oil painting style", "./sunset.png")
-generate_image_openai("modern tech logo", "./logo.png", size="1024x1024", quality="high")
-generate_image_openai("minimalist cat icon", "./icon.png", background="transparent")
+```bash
+python ~/.agents/tools/generate-image.py \
+  --prompt "a sunset over mountains, oil painting style" \
+  --output ./sunset.png
 ```
 
-### Size Options
-| Size | Best for |
-|------|----------|
-| `1024x1024` | Square -- logos, icons, social media |
-| `1536x1024` | Wide -- blog covers, banners, hero images |
-| `1024x1536` | Tall -- mobile, stories, Pinterest |
+### High quality
 
-## Stability AI (Alternative)
-
-```python
-def generate_image_stability(prompt, output_path, aspect_ratio="1:1"):
-    """Generate with Stability AI SD 3.5 Large."""
-    resp = requests.post(
-        "https://api.stability.ai/v2beta/stable-image/generate/sd3",
-        headers={
-            "Authorization": f"Bearer {os.environ['STABILITY_API_KEY']}",
-            "Accept": "image/*",
-        },
-        files={"none": ""},
-        data={
-            "prompt": prompt,
-            "model": "sd3.5-large",
-            "aspect_ratio": aspect_ratio,  # 1:1, 16:9, 9:16, 3:2, 2:3
-            "output_format": "png",
-        },
-    )
-    resp.raise_for_status()
-    with open(output_path, "wb") as f:
-        f.write(resp.content)
-
-generate_image_stability("watercolor painting of a garden", "./garden.png", aspect_ratio="16:9")
+```bash
+python ~/.agents/tools/generate-image.py \
+  --prompt "modern logo design for a tech company" \
+  --output ./logo.png \
+  --size 1024x1024 \
+  --quality high
 ```
 
-## When to Use Which Provider
+### Wide format (good for blog covers, banners)
 
-| Provider | Strengths |
-|----------|-----------|
-| **OpenAI GPT Image** | Best overall quality, text rendering, transparent backgrounds, follows complex prompts |
-| **Stability AI** | Good for artistic styles, faster, often cheaper, no content policy surprises |
+```bash
+python ~/.agents/tools/generate-image.py \
+  --prompt "abstract digital art with blue tones" \
+  --output ./banner.png \
+  --size 1536x1024
+```
 
-## Tips
+### Tall format (good for mobile, stories)
 
-- **Be specific**: "a golden retriever sitting on a red couch in a cozy living room" > "a dog"
-- **Specify style**: "oil painting", "flat vector", "3D render", "watercolor", "photorealistic"
-- **For logos**: use `background: "transparent"` with OpenAI, or post-process with PIL
-- **For blog covers**: use wide format (`1536x1024` or `16:9`)
-- **Batch generation**: generate multiple variations and let the user pick the best one
+```bash
+python ~/.agents/tools/generate-image.py \
+  --prompt "portrait of a futuristic city" \
+  --output ./city.png \
+  --size 1024x1536
+```
+
+### Transparent background (icons, logos)
+
+```bash
+python ~/.agents/tools/generate-image.py \
+  --prompt "a minimalist cat icon, flat design" \
+  --output ./icon.png \
+  --background transparent
+```
+
+### Generate with Stability AI (SD 3.5 Large)
+
+```bash
+python ~/.agents/tools/generate-image.py \
+  --prompt "watercolor painting of a garden" \
+  --output ./garden.png \
+  --provider stability
+```
+
+## CLI Options
+
+| Option | Description |
+|--------|-------------|
+| `--prompt, -p` | **(Required)** Text prompt describing the desired image |
+| `--output, -o` | **(Required)** Output file path |
+| `--provider` | `openai` (default) or `stability` |
+| `--size` | Image size for OpenAI: `1024x1024` (default), `1536x1024` (wide), `1024x1536` (tall) |
+| `--quality` | OpenAI quality: `low`, `medium` (default), or `high` |
+| `--background` | OpenAI background: `auto` (default), `transparent`, or `opaque` |
+| `--model` | Override model (default: `gpt-image-1` for OpenAI, `sd3.5-large` for Stability) |
+
+## Provider Comparison
+
+| Feature | OpenAI GPT Image | Stability AI SD 3.5 |
+|---------|------------------|---------------------|
+| Default model | gpt-image-1 | sd3.5-large |
+| Prompt adherence | Excellent | Good |
+| Size options | 1024x1024, 1536x1024, 1024x1536 | 1024x1024 |
+| Quality options | low, medium, high | N/A |
+| Transparent bg | Yes | No |
+| Style | Photorealistic + artistic | Artistic + photorealistic |
+
+## Dependencies
+
+- `requests` (for API calls)
+
+Install if needed:
+```bash
+pip install requests
+```
+
+## Output
+
+The script prints:
+- The provider and model used
+- The prompt (and revised prompt if applicable)
+- The saved file path
