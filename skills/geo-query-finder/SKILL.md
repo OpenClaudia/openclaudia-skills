@@ -19,6 +19,38 @@ Use when the user asks to "find queries for [brand]", "check GEO visibility", "w
 
 ## How It Works
 
+### Step 0: Pull pre-indexed LLM mentions (DataForSEO) — do this FIRST
+
+Before generating speculative queries, check if DataForSEO already has indexed mentions for the brand's domain. If it does, you get ground-truth queries with search volume in one call instead of burning OpenAI dollars guessing.
+
+Auth via `DATAFORSEO_LOGIN` / `DATAFORSEO_PASSWORD` environment variables.
+
+```bash
+AUTH=$(printf '%s' "$DATAFORSEO_LOGIN:$DATAFORSEO_PASSWORD" | base64)
+# Google AI Overview citations
+curl -s -X POST "https://api.dataforseo.com/v3/ai_optimization/llm_mentions/search/live" \
+  -H "Authorization: Basic $AUTH" -H "Content-Type: application/json" \
+  -d '[{"target":[{"domain":"<DOMAIN>","search_filter":"include","include_subdomains":true}],"platform":"google","limit":700}]'
+# ChatGPT citations (substitute "platform":"chat_gpt")
+```
+
+**Critical flags:**
+- `"include_subdomains": true` — without it, apex domains return 0 results (www.X treated as a different domain).
+- Omit `location_code` to get global results; add `"location_code": 2840` only to scope to US.
+- `platform` options: `"google"` (AI Overview), `"chat_gpt"`. Perplexity is NOT supported via this dataset.
+
+**Extract from each `items[]`:**
+- `question` — the real search query where the brand was cited
+- `ai_search_volume` — monthly AI search volume (use to prioritize)
+- `sources[]` — entries with `domain` matching the brand have the exact cited URL
+- `location_code`, `language_code`, `model_name` — for geo/locale breakdown
+- `answer` — the LLM answer text (for context)
+
+**Decision rule:**
+- If ≥20 queries returned → skip Steps 1–4 entirely; report these as ground-truth mentions and focus Step 5 on gap analysis (sort by volume, find URL-section winners like `/guides/` vs `/tools/`).
+- If <20 queries → use them as seed input for Step 2 (generate variations of the query themes DataForSEO already confirmed), then run Steps 3–4 only on the gaps.
+- If 0 queries → the domain has no AI citations; proceed with the original Steps 1–5 (speculative testing) as fallback.
+
 ### Step 1: Research the Brand
 If no `--industry` or `--features` provided, use web search to understand:
 - What the brand does / what industry it's in
