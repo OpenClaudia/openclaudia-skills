@@ -7,16 +7,42 @@ allowed-tools: Bash(*), Read, Write
 
 # AI Image Generation
 
-Generate images from text prompts using OpenAI GPT Image (gpt-image-1) or Stability AI (SD 3.5 Large).
+Generate images from text prompts using OpenAI GPT Image (gpt-image-2 / gpt-image-1 / variants) or Stability AI (SD 3.5 Large).
 
 ## Tool Location
 
 - Script: `~/.agents/tools/generate-image.py`
 - Env file: `~/.agents/tools/.env` (contains `OPENAI_API_KEY` and `STABILITY_API_KEY`)
 
+## Available OpenAI image models (verified live via `/v1/models` 2026-05-15)
+
+| Model ID | Notes |
+|---|---|
+| `gpt-image-2` | **Flagship.** Released 2026-04-21. Best prompt adherence, best photorealism. Default when image quality matters. |
+| `gpt-image-2-2026-04-21` | Pinned dated variant of gpt-image-2 |
+| `gpt-image-1.5` | Intermediate release between 1 and 2 |
+| `gpt-image-1-mini` | Smaller/cheaper gpt-image-1 variant — use for batch/draft generation where cost matters |
+| `gpt-image-1` | Original gpt-image. Still works; superseded by gpt-image-2. |
+| `chatgpt-image-latest` | Always-current alias of the model ChatGPT.com uses (currently gpt-image-2-class). Use when you want "whatever ChatGPT uses today" |
+| `dall-e-3` | Legacy fallback. Different quality semantics (standard/hd, not low/medium/high). |
+
+Pass any of these to `--model`. The script branches on `gpt-image*` for the quality/format handling, so all gpt-image-* variants work out of the box.
+
+**Default in the script is still `gpt-image-1`** — pass `--model gpt-image-2` (or set up an alias) when you want the flagship.
+
 ## Quick Usage
 
-### Generate with OpenAI GPT Image (default)
+### Generate with OpenAI gpt-image-2 (flagship)
+
+```bash
+python ~/.agents/tools/generate-image.py \
+  --prompt "a sunset over mountains, oil painting style" \
+  --output ./sunset.png \
+  --model gpt-image-2 \
+  --quality high
+```
+
+### Generate with default (gpt-image-1)
 
 ```bash
 python ~/.agents/tools/generate-image.py \
@@ -84,14 +110,15 @@ python ~/.agents/tools/generate-image.py \
 
 ## Provider Comparison
 
-| Feature | OpenAI GPT Image | Stability AI SD 3.5 |
-|---------|------------------|---------------------|
-| Default model | gpt-image-1 | sd3.5-large |
-| Prompt adherence | Excellent | Good |
-| Size options | 1024x1024, 1536x1024, 1024x1536 | 1024x1024 |
-| Quality options | low, medium, high | N/A |
-| Transparent bg | Yes | No |
-| Style | Photorealistic + artistic | Artistic + photorealistic |
+| Feature | OpenAI gpt-image-2 | OpenAI gpt-image-1 | Stability AI SD 3.5 |
+|---------|--------------------|--------------------|---------------------|
+| Released | 2026-04-21 | 2025 | — |
+| Prompt adherence | Best | Excellent | Good |
+| Size options | 1024x1024, 1536x1024, 1024x1536 | 1024x1024, 1536x1024, 1024x1536 | 1024x1024 |
+| Quality options | low, medium, high | low, medium, high | N/A |
+| Transparent bg | Yes | Yes | No |
+| Style | Photorealistic + artistic | Photorealistic + artistic | Artistic + photorealistic |
+| Cost per image (high) | Higher than 1 | Baseline | N/A |
 
 ## Dependencies
 
