@@ -183,6 +183,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `affiliate-marketing` | Build and manage affiliate partner programs |
 | `newsletter` | Newsletter growth, engagement, and monetization |
 | `podcast-marketing` | Podcast production, growth, and promotion |
+| `podcast-edit` | Edit podcast audio — trim, remove fillers, normalize loudness |
 
 ### CRM & Outreach (API-Powered)
 | Skill | Description | API Required |
