@@ -309,7 +309,6 @@ OpenClaudia is proudly sponsored by:
 - [Enception.ai](https://enception.ai) — AI marketing agency
 - [Quanl.ai](https://quanl.ai) — AI & GEO insights from founder Quanlai Li
 - [MakeForm.ai](https://makeform.ai) — AI form builder
-- [Michelin Key Hotels](https://michelinkeyhotels.com) — Luxury Michelin Guide hotel discovery platform
 
 ## License
 
