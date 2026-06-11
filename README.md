@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 63+ marketing skills
+# Install all 65+ marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
@@ -94,6 +94,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `schema-markup` | Generate and validate Schema.org structured data |
 | `programmatic-seo` | Create SEO-optimized pages at scale |
 | `ahrefs-research` | Ahrefs Python SDK for backlinks, keywords, domain ratings, and traffic |
+| `geo-query-finder` | Find which ChatGPT search queries mention a brand (GEO visibility) |
 
 ### Content Writing
 | Skill | Description |
@@ -149,7 +150,6 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | Skill | Description |
 |-------|-------------|
 | `marketing-ideas` | 139 proven marketing ideas by category |
-| `marketing-psychology` | 70+ psychological principles for marketing |
 | `competitor-analysis` | Full competitor strategy breakdown |
 | `pricing-strategy` | Pricing page and strategy optimization |
 | `launch-strategy` | Product launch planning and execution |
@@ -184,6 +184,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `newsletter` | Newsletter growth, engagement, and monetization |
 | `podcast-marketing` | Podcast production, growth, and promotion |
 | `podcast-edit` | Edit podcast audio — trim, remove fillers, normalize loudness |
+| `stripe-dispute` | Fight Stripe disputes and chargebacks with evidence + counter-dispute |
 
 ### CRM & Outreach (API-Powered)
 | Skill | Description | API Required |

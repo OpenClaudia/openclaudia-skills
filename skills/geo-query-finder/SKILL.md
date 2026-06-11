@@ -1,3 +1,13 @@
+---
+name: geo-query-finder
+description: >
+  Find which ChatGPT search queries mention a given brand. Tests long-tail
+  queries against ChatGPT's web-search-enabled model and reports which ones
+  surface the brand. Use when the user asks to "find queries for [brand]",
+  "check GEO visibility", "which queries mention [brand]", "geo query finder",
+  "find AI mentions", or "test ChatGPT queries for [brand]".
+---
+
 # GEO Query Finder
 
 Find which ChatGPT search queries mention a given brand. Tests long-tail queries against ChatGPT's web-search-enabled model and reports which ones surface the brand.

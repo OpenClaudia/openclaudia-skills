@@ -1,6 +1,6 @@
 # How to Use OpenClaudia
 
-A practical guide to getting the most out of OpenClaudia's 62+ marketing skills in Claude Code.
+A practical guide to getting the most out of OpenClaudia's 65+ marketing skills in Claude Code.
 
 ---
 
