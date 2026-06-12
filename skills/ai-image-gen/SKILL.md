@@ -28,7 +28,7 @@ Generate images from text prompts using OpenAI GPT Image (gpt-image-2 / gpt-imag
 
 Pass any of these to `--model`. The script branches on `gpt-image*` for the quality/format handling, so all gpt-image-* variants work out of the box.
 
-**Default in the script is still `gpt-image-1`** — pass `--model gpt-image-2` (or set up an alias) when you want the flagship.
+**Default in the script is now `gpt-image-2`** (the flagship) — pass `--model gpt-image-1-mini` for cheap batch/draft work.
 
 ## Quick Usage
 
@@ -42,7 +42,7 @@ python ~/.agents/tools/generate-image.py \
   --quality high
 ```
 
-### Generate with default (gpt-image-1)
+### Generate with default (gpt-image-2)
 
 ```bash
 python ~/.agents/tools/generate-image.py \
@@ -106,7 +106,7 @@ python ~/.agents/tools/generate-image.py \
 | `--size` | Image size for OpenAI: `1024x1024` (default), `1536x1024` (wide), `1024x1536` (tall) |
 | `--quality` | OpenAI quality: `low`, `medium` (default), or `high` |
 | `--background` | OpenAI background: `auto` (default), `transparent`, or `opaque` |
-| `--model` | Override model (default: `gpt-image-1` for OpenAI, `sd3.5-large` for Stability) |
+| `--model` | Override model (default: `gpt-image-2` for OpenAI, `sd3.5-large` for Stability) |
 
 ## Provider Comparison
 
