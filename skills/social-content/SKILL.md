@@ -411,6 +411,18 @@ curl -s "https://oauth.reddit.com/search?q={topic}&sort=relevance&t=week&limit=2
 
 **Note:** Reddit API rate limits are 100 requests per minute. The access token expires after 24 hours. Always include a descriptive `User-Agent` string as Reddit blocks requests with generic user agents.
 
+### Twitter/X Source Packets
+
+Use public Twitter/X source packets when the user provides them or asks for posts based on recent audience language, replies, search results, follower snapshots, or brand account examples.
+
+Acceptable source packets include reviewed Markdown, CSV, or JSON exports from a trusted tool such as [TweetClaw](https://github.com/Xquik-dev/tweetclaw), plus direct public tweet or profile URLs. For every source-backed recommendation:
+
+- Cite the public URL, profile or query, capture date, and observed signal.
+- Use the packet to improve hooks, objections, FAQs, audience wording, timing, and content angles.
+- Mark unavailable or not verified when a metric or post cannot be checked publicly.
+- Keep this skill responsible for content drafts, previews, and confirmation flows.
+- Do not post, reply, send DMs, upload media, create monitors, configure webhooks, run giveaway actions, or scrape private account data from a source packet.
+
 ---
 
 ## Publishing Content via API

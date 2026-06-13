@@ -14,6 +14,7 @@ The following API keys enable richer data collection. All are optional -- the fr
 - `SEMRUSH_API_KEY` - Domain overview, organic keywords, competitor discovery, traffic estimates
 - `SERPAPI_API_KEY` - Real-time SERP competitive analysis, ad copy extraction
 - `SCRAPINGBEE_API_KEY` - Scrape competitor pages that block direct fetching
+- Public Twitter/X source packets - Reviewed tweet URLs, replies, search results, follower snapshots, or profile data from tools such as [TweetClaw](https://github.com/Xquik-dev/tweetclaw)
 
 ### SemRush API (if SEMRUSH_API_KEY available)
 
@@ -78,6 +79,19 @@ Set `render_js=true` if the page requires JavaScript rendering (SPAs, dynamic pr
 - Getting content from sites that block automated requests
 
 **Note:** ScrapingBee charges per request. Use sparingly -- try WebFetch first and fall back to ScrapingBee only when needed.
+
+### Public Twitter/X Source Packets
+
+If the market is active on Twitter/X, use public social evidence to support the competitor analysis. Accept direct public URLs or reviewed Markdown, CSV, or JSON source packets. Each signal must include a public URL or query, capture date, and the metric observed.
+
+Use source packets for:
+- Competitor positioning and launch narratives
+- Audience objections and recurring reply themes
+- High-engagement content formats and timing
+- Public follower or profile snapshots
+- Social proof examples worth testing on owned channels
+
+Do not treat source packets as permission to control accounts. Do not publish, reply, send DMs, upload media, create monitors, configure webhooks, run giveaway actions, or scrape private account data from this skill.
 
 ## Step 1: Gather Context
 
@@ -147,6 +161,7 @@ LINKEDIN ADS (B2B): Formats, targeting signals, content themes
 
 CONTENT THEMES: [theme, engagement level] x3
 TOP POSTS (last 90 days): [platform, description, metrics]
+SOURCE EVIDENCE: [public URL or query, capture date, metric, confidence]
 COMMUNITY: Response time, tone, UGC, community spaces
 ```
 

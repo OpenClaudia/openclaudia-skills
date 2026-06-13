@@ -145,6 +145,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `google-ads-report` | Google Ads performance reporting | Google OAuth |
 | `google-reviews` | Google Maps ratings, review counts, and competitor analysis | `DATAFORSEO_LOGIN` |
 | `youtube-analytics` | YouTube channel and video performance analysis | `YOUTUBE_API_KEY` |
+| `similarweb-traffic` | SimilarWeb traffic estimates, sources, countries, keywords, and ranks | None |
 
 ### Strategy & Planning
 | Skill | Description |
