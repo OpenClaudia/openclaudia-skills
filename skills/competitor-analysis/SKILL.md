@@ -116,6 +116,29 @@ BACKLINK PROFILE:
 TECHNICAL: Site speed, mobile optimization, schema markup, architecture
 ```
 
+### Traffic Source Reality Check (do this BEFORE trusting the numbers)
+
+A headline like "74% organic" does **not** mean a competitor is winning at SEO discovery. Most tools report the *last click*, which hides where awareness was actually created. Decompose before you draw conclusions:
+
+1. **Branded vs non-branded search.** Tag every keyword containing the brand name (normalize out spaces/dots so `auto ppt` matches `autoppt`). Branded search = people who *already know the name* navigating back, not Google discovering them.
+2. **Navigational bucket = branded search + Direct traffic.** Treat them as one: an existing audience returning, not new acquisition.
+3. **Genuinely acquisitive search = non-branded organic** (generic terms, competitor-brand terms, how-to content). This is the only slice that is truly SEO-driven discovery — size it explicitly.
+4. **Reconcile your tools.** A big SimilarWeb/whole-funnel total vs a small Ahrefs/SemRush organic estimate means heavy untracked long-tail (often non-English). Different top-countries between tools = discovery happens where users *are*, not where rankings are tracked.
+5. **Sanity-check the users are real.** Bounce rate, pages/visit, time-on-site. Bot/incentivized traffic shows as ~100% bounce, 1 page, a few seconds.
+
+**Channel fingerprint → find the real top-of-funnel.** Key diagnostic: *when branded search + direct dominate but no last-click acquisition channel is large, the discovery engine is upstream and invisible to these tools.*
+
+| Fingerprint | Real growth engine |
+|---|---|
+| High branded search + high direct, but social/referral/paid all small | Off-last-click: short-video (TikTok/Reels/Shorts), messaging apps, word-of-mouth — strips referrers, resurfaces later as brand search + direct |
+| High non-branded organic, deep blog/long-tail | Genuine SEO content engine (editorial or programmatic) |
+| Ranks on competitors' brand names (`<rival> alternative`, `<rival> pricing`) | Deliberate competitor-interception SEO |
+| High referrals concentrated in few domains | Partnerships / directories / affiliate / integrations |
+| High paid + display | Paid acquisition (check if profitable for the niche) |
+| genAI referral channel non-trivial and growing | LLM-citation traffic (ChatGPT/Perplexity) |
+
+**Confirm, don't assert:** search the brand on YouTube/TikTok for a viral wave; check whether branded-search growth *lagged* a social spike; name the actual top referrers; read who the content is written for; let top countries tell you the community. Only then write the "how they really grow" verdict.
+
 ### Gap Analysis
 
 - **Keyword gaps**: Keywords competitors rank for that you do not
