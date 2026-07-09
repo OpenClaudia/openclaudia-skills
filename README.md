@@ -146,6 +146,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `google-reviews` | Google Maps ratings, review counts, and competitor analysis | `DATAFORSEO_LOGIN` |
 | `youtube-analytics` | YouTube channel and video performance analysis | `YOUTUBE_API_KEY` |
 | `github-stars` | Chart a repo's star growth by day and hour, any timezone | `gh` CLI |
+| `similarweb-traffic` | Fetch website traffic estimates, sources, countries, keywords, and ranks | None |
 
 ### Strategy & Planning
 | Skill | Description |
