@@ -320,7 +320,9 @@ MIT — see [LICENSE](LICENSE)
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=OpenClaudia/openclaudia-skills&type=Date)](https://star-history.com/#OpenClaudia/openclaudia-skills&Date)
+![Star History Chart](assets/star-history.png)
+
+<sub>Updated 2026-07-16. GitHub [restricted the stargazers API](https://github.blog/changelog/2026-06-30-upcoming-access-restrictions-to-public-api-endpoints-and-ui-views/) in June 2026, so the live star-history.com badge no longer renders; this chart is generated from the repo's own star data.</sub>
 
 ---
 
