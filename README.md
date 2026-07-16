@@ -95,6 +95,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `programmatic-seo` | Create SEO-optimized pages at scale |
 | `ahrefs-research` | Ahrefs Python SDK for backlinks, keywords, domain ratings, and traffic |
 | `geo-query-finder` | Find which ChatGPT search queries mention a brand (GEO visibility) |
+| `geo-difficulty` | Score keyword ranking difficulty for the AI-search era (page-level UR + AI Overview signal) |
 
 ### Content Writing
 | Skill | Description |
@@ -148,6 +149,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `github-stars` | Chart a repo's star growth by day and hour, any timezone | `gh` CLI |
 | `similarweb-traffic` | Fetch website traffic estimates, sources, countries, keywords, and ranks | None |
 | `ai-citations-report` | GEO report: which AI-search prompts cite a domain (Google AI Overview + ChatGPT), via Enception's paid API | `ENCEPTION_API_KEY` |
+| `geo-analysis` | Full GEO/SEO client analysis with PDF report (AI visibility, market research, competitors), via Enception's paid API | `ENCEPTION_ANALYSIS_API_KEY` |
 
 ### Strategy & Planning
 | Skill | Description |
