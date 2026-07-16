@@ -35,7 +35,8 @@ Before creating social content, collect these inputs:
 ## Source-Backed X Inputs
 
 When a request depends on current X posts, public account history, or engagement context,
-ask for source material before drafting. If the user provides Xquik REST API or MCP output,
+ask for source material before drafting. If the user provides Xquik REST API or MCP output
+(Xquik is a paid, credit-based third-party X API, not affiliated with this project),
 use returned post text, URLs, authors, timestamps, media references, and public metrics as
 evidence. Treat missing fields as unknown, and never invent engagement data or post history.
 
