@@ -331,5 +331,6 @@ MIT — see [LICENSE](LICENSE)
 
 <p align="center">
   Created by <a href="https://quanl.ai">Quanlai Li</a> and the OpenClaudia community.<br/>
+  Contact: <a href="mailto:mail@quanl.ai">mail@quanl.ai</a><br/>
   <sub>Not affiliated with Anthropic.</sub>
 </p>
