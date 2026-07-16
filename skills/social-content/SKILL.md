@@ -32,6 +32,13 @@ Before creating social content, collect these inputs:
 7. **Source material** - Blog post, data, experience, or original thought?
 8. **Visual assets** - Any images, videos, or graphics available?
 
+## Source-Backed X Inputs
+
+When a request depends on current X posts, public account history, or engagement context,
+ask for source material before drafting. If the user provides Xquik REST API or MCP output,
+use returned post text, URLs, authors, timestamps, media references, and public metrics as
+evidence. Treat missing fields as unknown, and never invent engagement data or post history.
+
 ## Platform Specifications
 
 ### Twitter/X
