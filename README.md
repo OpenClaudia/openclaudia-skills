@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The open-source marketing toolkit for AI coding agents.</strong><br/>
-  68+ modular skills that turn Claude Code into a full marketing department.
+  69+ modular skills that turn Claude Code into a full marketing department.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 68+ marketing skills
+# Install all 69+ marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
@@ -170,6 +170,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `slack-bot` | Post rich Block Kit messages and updates to Slack | `SLACK_WEBHOOK_URL` or `SLACK_BOT_TOKEN` |
 | `telegram-bot` | Send formatted posts, polls, and media to Telegram | `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` |
 | `feishu-lark` | Post interactive cards and updates to Feishu/Lark | `FEISHU_WEBHOOK_URL` or `FEISHU_APP_ID` |
+| `task-banner` | macOS desktop banner when Claude Code finishes a task, with mute toggle | None |
 
 ### Content Assets
 | Skill | Description | API Required |
