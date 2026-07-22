@@ -326,7 +326,7 @@ MIT — see [LICENSE](LICENSE)
 
 ![Star History Chart](assets/star-history.png)
 
-<sub>Updated 2026-07-20. GitHub [restricted the stargazers API](https://github.blog/changelog/2026-06-30-upcoming-access-restrictions-to-public-api-endpoints-and-ui-views/) in June 2026, so the live star-history.com badge no longer renders; this chart is generated from the repo's own star data.</sub>
+<sub>Updated 2026-07-21. GitHub [restricted the stargazers API](https://github.blog/changelog/2026-06-30-upcoming-access-restrictions-to-public-api-endpoints-and-ui-views/) in June 2026, so the live star-history.com badge no longer renders; this chart is generated from the repo's own star data.</sub>
 
 ---
 
