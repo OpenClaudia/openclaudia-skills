@@ -177,6 +177,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 |-------|-------------|--------------|
 | `stock-images` | Search Unsplash for stock photos with optional text overlay | `UNSPLASH_CLIENT_ID` |
 | `ai-image-gen` | Generate images from text prompts via OpenAI or Stability AI | `OPENAI_API_KEY` |
+| `marketing-slides` | Create marketing slides, pitch decks, and sales decks — outline, per-slide copy, and generation via ChatSlide | [ChatSlide](https://www.chatslide.ai) account |
 | `i18n` | Add full i18n to Next.js — 14+ locales, hreflang sitemaps, bulk translation | None |
 
 ### Growth & Automation
