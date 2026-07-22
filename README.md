@@ -148,8 +148,8 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `youtube-analytics` | YouTube channel and video performance analysis | `YOUTUBE_API_KEY` |
 | `github-stars` | Chart a repo's star growth by day and hour, any timezone | `gh` CLI |
 | `similarweb-traffic` | Fetch website traffic estimates, sources, countries, keywords, and ranks | None |
-| `ai-citations-report` | GEO report: which AI-search prompts cite a domain (Google AI Overview + ChatGPT), via Enception's paid API | `ENCEPTION_API_KEY` |
-| `geo-analysis` | Full GEO/SEO client analysis with PDF report (AI visibility, market research, competitors), via Enception's paid API | `ENCEPTION_ANALYSIS_API_KEY` |
+| `ai-citations-report` | GEO report: which AI-search prompts cite a domain (Google AI Overview + ChatGPT), via [Enception](https://www.enception.ai)'s paid API | `ENCEPTION_API_KEY` |
+| `geo-analysis` | Full GEO/SEO client analysis with PDF report (AI visibility, market research, competitors), via [Enception](https://www.enception.ai)'s paid API | `ENCEPTION_ANALYSIS_API_KEY` |
 
 ### Strategy & Planning
 | Skill | Description |
