@@ -13,7 +13,7 @@ Thin wrapper over the Enception client-analysis API. Three operations: **start**
 
 ## Requirements
 
-- `ENCEPTION_ANALYSIS_API_KEY` — sent as the `x-api-key` header. Contact the Enception team via https://www.enception.ai to obtain one. Rate limit: 10 requests/minute.
+- `ENCEPTION_ANALYSIS_API_KEY` — sent as the `x-api-key` header. Self-serve: sign up at https://www.enception.ai, then generate a free-tier key under Account → API Key (2 analyses/month free; contact the team for higher limits). Rate limit: 10 requests/minute.
 
 ## 1. Start
 

@@ -15,7 +15,7 @@ API docs: https://www.enception.ai/doc/api-ai-citations
 
 ## Requirements
 
-- `ENCEPTION_API_KEY` — access key for the Enception API (paid). Request access at https://www.enception.ai.
+- `ENCEPTION_API_KEY` — access key for the Enception API. Self-serve: sign up at https://www.enception.ai, then generate a free-tier key under Account → API Key (10 reports/month free; contact the team for higher limits).
 
 ## What it produces
 
