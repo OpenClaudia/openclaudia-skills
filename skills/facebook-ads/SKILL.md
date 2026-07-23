@@ -143,7 +143,9 @@ Campaign: [Product] - A/B Test - [Variable]
 
 **Rules**: Minimum $10/day per ad set or 2x target CPA. Learning phase needs ~50 conversions in 7 days per ad set. Never increase budget more than 20% at a time.
 
-**Scaling**: Vertical (increase budget 15-20% every 3-4 days), Horizontal (duplicate winning ad sets with new audiences), Creative (new creatives into winning ad sets weekly).
+> **Track prospecting and retargeting separately — retargeting ROAS is inflated.** Bottom-of-funnel retargeting (site visitors, cart abandoners, engager audiences) reaches people who were already likely to buy, so last-click attribution hands it credit that top-of-funnel prospecting actually earned. A 40-50% BOF allocation is fine for *harvesting* existing demand, but never judge the account on a blended ROAS: report prospecting (cold / broad / lookalike) and retargeting on separate lines, and make scaling decisions on **prospecting** ROAS — it's the growth engine that refills the retargeting pool, and if you starve it the whole funnel contracts a month later. Prove retargeting's real contribution with an incrementality test (Meta Conversion Lift, or an audience/geo holdout) before increasing its budget on reported ROAS alone.
+
+**Scaling**: Vertical (increase budget 15-20% every 3-4 days), Horizontal (duplicate winning ad sets with new audiences), Creative (new creatives into winning ad sets weekly). Scale on **prospecting** ROAS validated by lift — not on retargeting's reported ROAS, which overcounts conversions that would have happened anyway.
 
 ## Step 7: Campaign Naming Convention
 
