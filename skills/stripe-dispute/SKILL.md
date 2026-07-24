@@ -1,11 +1,11 @@
 ---
 name: stripe-dispute
-description: Fight Stripe disputes and chargebacks by gathering evidence (Stripe API + your app database + terms page), generating an activity-log PDF, and submitting a counter-dispute. Use when the user says "fight dispute", "stripe dispute", "chargeback", "counter dispute", "dispute evidence", or shares a Stripe dispute ID.
+description: Evaluate whether a Stripe dispute is economical to contest, then gather evidence and submit only when approved. Use for Stripe disputes, chargebacks, counter-disputes, evidence packages, or Stripe dispute IDs.
 ---
 
-# Stripe Dispute Fighter
+# Stripe Dispute Evaluation and Evidence
 
-Build evidence packages and submit counter-disputes to Stripe. Works for any SaaS that uses Stripe + a user database with login/usage logs.
+Evaluate the economics first. When contesting is justified and approved, build an evidence package and submit it to Stripe. Works for any SaaS using Stripe and a user database with login or usage logs.
 
 ## When to Use This Skill
 
@@ -33,6 +33,28 @@ The user provides any of:
 - Stripe dispute ID (`du_xxxxx`) — preferred
 - Customer email — skill will look up the dispute
 - Charge ID (`ch_xxxxx` or `py_xxxxx`)
+
+## Decide whether to contest first
+
+Accepting a dispute can be the correct outcome. Never submit evidence merely because a
+case exists.
+
+1. Verify live Stripe pricing. Under current US standard pricing, Stripe charges a $15
+   dispute-received fee automatically and another $15 dispute-countered fee when evidence
+   is submitted. The received fee is sunk. The countered fee is returned only on a win.
+   Use current live pricing if these amounts change.
+2. Query the merchant's live Stripe dispute history. For defended win rate, count only
+   closed disputes with `evidence_details.submission_count > 0`. Separate initial purchases
+   from renewals and narrow to the same reason when the sample permits. Report wins,
+   losses, open cases, and sample size. State when no exact-match precedent exists.
+3. Calculate break-even probability and expected value after the countered fee and
+   evidence-building labor. Do not invent a probability from case strength alone.
+4. Use a conservative 30% minimum win-probability threshold unless the user provides a
+   different threshold. If comparable data cannot support that threshold, recommend
+   leaving the dispute unanswered. This avoids the countered fee, although the disputed
+   amount and received fee remain lost.
+5. Obtain explicit user approval before building files, uploading evidence, or submitting.
+   Submission is final and fee-bearing.
 
 ## Steps
 
@@ -64,11 +86,12 @@ curl -s -u "$STRIPE_SECRET_KEY:" \
 curl -s -u "$STRIPE_SECRET_KEY:" "https://api.stripe.com/v1/subscriptions/$SUB_ID"
 ```
 
-**Prior undisputed payments on the same card are the strongest single piece of evidence** for `fraudulent` claims. Always count them.
+Prior undisputed payments on the same card are useful corroboration for `fraudulent`
+claims. Always count them, but do not treat them as proof by themselves.
 
 ### 3. Look up the customer in your app database
 
-Adapt these queries to your schema. The shape that wins disputes:
+Adapt these queries to your schema. A useful evidence shape:
 
 ```sql
 -- User profile and self-reported cancel reason
@@ -91,7 +114,9 @@ WHERE user_id = :uid
 ORDER BY timestamp DESC;
 ```
 
-**Critical for `product_not_received` claims:** check the user's self-reported `cancel_reason`. If they cancelled citing "Poor user experience" or anything that admits they used the product, that single field contradicts the dispute claim and tends to win the case on its own. Quote it verbatim in the rebuttal.
+For `product_not_received` claims, check the user's self-reported `cancel_reason`. If they
+cancelled citing "Poor user experience" or anything admitting use, that field directly
+contradicts the claim. Quote it verbatim, but do not infer a win rate from one fact.
 
 ### 4. Download supporting documents
 
@@ -122,7 +147,7 @@ const { chromium } = require('playwright');
 
 ### 6. Generate the activity-log PDF
 
-This is the document Stripe's reviewers actually read. Build an HTML file, then convert to PDF with WeasyPrint:
+Build a concise, reviewable HTML activity log, then convert it to PDF with WeasyPrint:
 
 ```python
 from weasyprint import HTML
@@ -131,7 +156,7 @@ HTML('activity_log.html').write_pdf('activity_log.pdf')
 
 **HTML must include `<meta charset="UTF-8">`** to avoid mangled characters in customer names/addresses.
 
-The layout that has been shown to win:
+A reviewable layout:
 
 1. **Summary grid** — Customer / Email / Internal user ID / Stripe customer ID / Account created / Plan / Subscription start / Cancellation timestamp (with delta from signup) / Self-reported cancel reason / Credits or units consumed / Purchase IP / Billing address / Payment method (last4, brand) / Stripe risk assessment / Referral source / Payment trigger
 2. **Payment History table** — every invoice with date, amount, status. **Highlight the disputed row** in red. Add a column "Disputed?" with explicit Yes/No.
@@ -141,7 +166,8 @@ The layout that has been shown to win:
 6. **Timeline Summary** — single chronological narrative ending with "and then on $DATE the dispute was filed."
 7. **Conclusion paragraph** — quote the user's own `cancel_reason` against the stated dispute reason, if they contradict.
 
-Concrete numbers beat adjectives every time. "29 login sessions, 3 named projects, 29,960 credits consumed, 1h 27m active, 2 deliberate checkout attempts" is undeniable. "Used extensively" is not.
+Prefer concrete numbers over adjectives. "29 login sessions, 3 named projects, 29,960
+credits consumed" is more useful than "used extensively."
 
 ### 7. Show everything to the user before submitting
 
@@ -244,12 +270,11 @@ Goal: prove the customer never cancelled (or cancelled after the renewal).
 - Never include other customers' data in the activity log PDF
 - Save every evidence package to disk in case you need to reference it for future disputes from the same customer
 
-## Pattern That Wins
-
-The single most reliable winning pattern observed across same-day-cancellation disputes:
+## High-value contradiction pattern
 
 > Customer signs up, uses product briefly, cancels within hours citing "Poor user experience" in your in-app cancel form, then files a chargeback days later claiming "product not received."
 
-The cancel form's reason — recorded in your own database — directly contradicts the chargeback claim. Quote it word-for-word in the rebuttal. This evidence pattern has won within ~30 days of submission with full amount + dispute fee returned.
+The cancel form's reason directly contradicts the chargeback claim. Quote it word-for-word
+in the rebuttal, while still applying the fee and historical-outcome decision gate.
 
 Always check `users.cancel_reason` (or your equivalent) FIRST when the dispute reason is `product_not_received` or `product_unacceptable`.
