@@ -22,7 +22,8 @@ Use this skill when the user:
 Global tools directory: `~/.agents/tools/`
 
 - Script: `~/.agents/tools/fetch-google-reviews.js`
-- Credentials: `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` in environment variables
+- Credentials (preferred): `AISA_ONE_API_KEY` in environment variables — proxies through aisa.one
+- Credentials (fallback): `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` in environment variables — direct to DataForSEO. The script auto-detects which one is set.
 
 ## Usage
 
@@ -96,6 +97,7 @@ Examples:
 ## API Details
 
 - Uses DataForSEO `business_data/google/my_business_info/live` endpoint
+- Routes through aisa.one proxy (`api.aisa.one/apis/v1/dataforseo/...`, Bearer auth) when `AISA_ONE_API_KEY` is set; falls back to direct `api.dataforseo.com/v3/...` (Basic auth) otherwise
 - Synchronous (returns results immediately)
 - Returns first matching business for the keyword + location
 - Batch mode adds 200ms delay between requests to avoid rate limits
