@@ -1,6 +1,6 @@
 ---
 name: podcast-edit
-description: Edit podcast audio — trim pre/post-show chat, remove filler words, cut silences, and enhance audio quality. Use when the user asks to edit a podcast, clean up audio, remove fillers, trim a recording, or improve voice quality.
+description: Edit podcast audio or video — trim pre/post-show chat, remove filler words, cut silences, enhance audio quality, and cut a video version of the same edit. Use when the user asks to edit a podcast, clean up audio, remove fillers, trim a recording, or improve voice quality.
 user_invocable: true
 ---
 
@@ -16,6 +16,7 @@ Process raw podcast/meeting recordings into polished podcast episodes.
 4. **Audio enhancement** — Noise reduction, EQ, multi-speaker volume balancing, loudness normalization to podcast standard (−16 LUFS)
 5. **Re-cutting a finished episode** — Surgically remove flagged sections from an already-rendered episode without re-running the whole pipeline
 6. **Highlight clips & reel** — Cut shareable soundbites and stitch a ~1-minute reel with music
+7. **Video cut** — Apply the same edit to a Zoom/Riverside video recording (see "Video episodes")
 
 ## Prerequisites
 
@@ -153,6 +154,37 @@ ffprobe -v quiet -show_entries format=duration -of csv=p=0 "OUTPUT_FILE"
 ```
 
 Report: duration, file size, what was removed (filler count, silence count, time saved).
+
+## Video episodes (Zoom / Riverside recordings)
+
+When the source is a video and the user wants a cut *video* back (e.g. a co-host needs the edited episode to dub into another language), run Steps 1–3 exactly as above — pull the audio chunks straight out of the mp4 with `-vn` — then apply the same cut points to picture and sound in a single pass:
+
+```bash
+# 1) same chunks + transcription as Step 3, but sourced from the video
+for i in $(seq 0 300 DURATION); do
+  ffmpeg -y -v error -ss $i -t 300 -i SOURCE.mp4 -vn -ar 16000 -ac 1 /tmp/wchunk_${i}.mp3 &
+done; wait
+
+# 2) filler_removal.py as usual -> /tmp/ffmpeg_filter.txt
+
+# 3) turn its keep segments into a combined video+audio filter
+python3 video_cut.py /tmp/video_filter.txt
+
+# 4) one render pass (hardware encoder; ~7 min for a 60-min 1080p episode)
+ffmpeg -y -i SOURCE.mp4 -filter_complex_script /tmp/video_filter.txt \
+  -map '[vout]' -map '[aout]' \
+  -c:v h264_videotoolbox -b:v 3500k -c:a aac -b:a 160k \
+  -movflags +faststart episode-edited.mp4
+```
+
+Use `-c:v libx264 -crf 21 -preset veryfast` instead of `h264_videotoolbox` on non-Apple hardware.
+
+Notes:
+- **Build `--chunk-offsets` as `$(seq 0 300 3600 | paste -sd, -)`.** A trailing empty field crashes the argument parser.
+- The result is jump-cut style. That is expected and fine for a talking-head grid; a short dissolve at 400+ cut points looks worse than a hard cut.
+- `video_cut.py` bakes the enhancement chain into the same pass, so unlike the audio path there is **no** two-pass WAV intermediate. Do not run the chain again afterwards.
+- Budget ~1.5 GB for a 60-min 1080p output — too large to email, so upload and share a link.
+- **Save the keep-segment list next to the episode.** Without it, a later "same cut, but as video" request has to re-derive the cuts, and they will not match the audio version you already shipped.
 
 ## Output conventions
 
