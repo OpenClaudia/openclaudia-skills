@@ -15,7 +15,7 @@ Extract the target domain from the user's input. Strip protocol and trailing sla
 ## Step 2: Fetch Brand Info
 
 ```bash
-BRANDDEV_API_KEY=$(grep BRANDDEV_API_KEY environment variables | cut -d= -f2)
+# BRANDDEV_API_KEY must be set in your environment
 curl -s "https://api.brand.dev/v1/brand/retrieve?domain=${DOMAIN}" \
   -H "Authorization: Bearer ${BRANDDEV_API_KEY}" \
   -H "Content-Type: application/json"
