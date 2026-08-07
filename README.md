@@ -309,6 +309,7 @@ OpenClaudia is part of a growing ecosystem of AI agent tools:
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the AI coding agent by Anthropic
 - [GEO Guide](https://howtowingeo.com) — how to win at Generative Engine Optimization
 - [PageGun](https://pagegun.com) — AI-powered CMS for content publishing
+- [wechat-moments](https://github.com/OpenClaudia/wechat-moments) — read and rank your own WeChat Moments feed locally. Kept as its own repo because it depends on the WeChat desktop client's local storage rather than any marketing API.
 
 ## Sponsors
 
