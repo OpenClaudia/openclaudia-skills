@@ -1,6 +1,6 @@
 # OpenClaudia
 
-Open-source AI marketing skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Codex](https://openai.com/index/introducing-codex/), and other coding agents. 34 skills that turn your terminal into a full-service marketing team.
+Open-source AI marketing skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Codex](https://openai.com/index/introducing-codex/), and other coding agents. 74 skills that turn your terminal into a full-service marketing team.
 
 **Website:** [openclaudia.com](https://openclaudia.com)
 **GitHub:** [OpenClaudia/openclaudia-skills](https://github.com/OpenClaudia/openclaudia-skills)
@@ -8,7 +8,7 @@ Open-source AI marketing skills for [Claude Code](https://docs.anthropic.com/en/
 ## Install
 
 ```bash
-# Install all 34 skills
+# Install all 74 skills
 npx openclaudia install --all
 
 # Install a specific skill
