@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The open-source marketing toolkit for AI coding agents.</strong><br/>
-  74 modular skills that turn Claude Code into a full marketing department.
+  75 modular skills that turn Claude Code into a full marketing department.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 74 marketing skills
+# Install all 75 marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
@@ -143,6 +143,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `brand-research` | Fetch brand info, logos, and industry data via Brand.dev | `BRANDDEV_API_KEY` |
 | `google-analytics` | Pull GA4 reports and insights | Google OAuth |
 | `search-console` | Google Search Console data & analysis | Google OAuth |
+| `gsc-portfolio-audit` | Rank ALL GSC properties by clicks with period-over-period deltas + keyword diffs | Google OAuth |
 | `google-ads-report` | Google Ads performance reporting | Google OAuth |
 | `google-reviews` | Google Maps ratings, review counts, and competitor analysis | `DATAFORSEO_LOGIN` |
 | `youtube-analytics` | YouTube channel and video performance analysis | `YOUTUBE_API_KEY` |
@@ -226,7 +227,7 @@ DATAFORSEO_PASSWORD=your_password
 # Brand.dev (brand-monitor)
 BRANDDEV_API_KEY=your_key_here
 
-# Google OAuth (google-analytics, search-console, google-ads-report)
+# Google OAuth (google-analytics, search-console, gsc-portfolio-audit, google-ads-report)
 GOOGLE_CLIENT_ID=your_client_id
 GOOGLE_CLIENT_SECRET=your_client_secret
 
