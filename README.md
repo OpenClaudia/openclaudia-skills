@@ -193,6 +193,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `podcast-edit` | Edit podcast audio — trim, remove fillers, normalize loudness |
 | `stripe-dispute` | Fight Stripe disputes and chargebacks with evidence + counter-dispute |
 | `organize-skills` | Rename a skill library to a naming convention and fix the symlinks + cross-references it breaks |
+| `wechat-moments` | Rank your own WeChat Moments feed — real news above marketing, weighted by who you actually talk to ([separate repo](https://github.com/OpenClaudia/wechat-moments)) |
 
 ### CRM & Outreach (API-Powered)
 | Skill | Description | API Required |
@@ -309,7 +310,7 @@ OpenClaudia is part of a growing ecosystem of AI agent tools:
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the AI coding agent by Anthropic
 - [GEO Guide](https://howtowingeo.com) — how to win at Generative Engine Optimization
 - [PageGun](https://pagegun.com) — AI-powered CMS for content publishing
-- [wechat-moments](https://github.com/OpenClaudia/wechat-moments) — read and rank your own WeChat Moments feed locally. Kept as its own repo because it depends on the WeChat desktop client's local storage rather than any marketing API.
+- [wechat-moments](https://github.com/OpenClaudia/wechat-moments) — the scripts behind the `wechat-moments` skill, kept separate because they depend on the WeChat desktop client rather than a marketing API
 
 ## Sponsors
 
