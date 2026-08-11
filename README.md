@@ -109,6 +109,8 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `content-gap-analysis` | Identify content gaps vs. competitors |
 | `content-repurposing` | Atomize content across platforms and formats |
 
+> Publishing AI-assisted copy? Run it through [DetectAIWatermark](https://detectaiwatermark.com/?ref=openclaudia) first — it strips the invisible Unicode watermarks AI writing tools embed, so your text doesn't carry a machine-generated fingerprint.
+
 ### Email Marketing
 | Skill | Description |
 |-------|-------------|
@@ -311,6 +313,7 @@ OpenClaudia is part of a growing ecosystem of AI agent tools:
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the AI coding agent by Anthropic
 - [GEO Guide](https://howtowingeo.com) — how to win at Generative Engine Optimization
 - [PageGun](https://pagegun.com) — AI-powered CMS for content publishing
+- [DetectAIWatermark](https://detectaiwatermark.com/?ref=openclaudia) — detect and remove invisible AI watermarks from your text
 - [wechat-moments](https://github.com/OpenClaudia/wechat-moments) — the scripts behind the `wechat-moments` skill, kept separate because they depend on the WeChat desktop client rather than a marketing API
 
 ## Sponsors
