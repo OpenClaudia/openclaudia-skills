@@ -1,0 +1,307 @@
+<title>__TITLE__</title>
+<style>
+.viz-root{
+  color-scheme:light;
+  --surface-1:#fcfcfb; --surface-2:#f4f3f0; --border:#dedcd6;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#83817a;
+  --me:#eb6834; --up:#1baf7a; --grid:#e8e6e1;
+  /* one hue, five steps, assigned by rank. Ten steps fail the adjacent-lightness
+     check; five pass in both modes. Stays clear of the orange reserved for focus. */
+  --b0:#86b6ef;--b1:#5598e7;--b2:#2a78d6;--b3:#1c5cab;--b4:#104281;
+}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .viz-root{
+  color-scheme:dark;
+  --surface-1:#1a1a19; --surface-2:#232322; --border:#3a3a37;
+  --text-primary:#fff; --text-secondary:#c3c2b7; --text-muted:#8e8d84;
+  --me:#d95926; --up:#199e70; --grid:#2e2e2c;
+  --b0:#cde2fb;--b1:#9ec5f4;--b2:#6da7ec;--b3:#3987e5;--b4:#256abf;
+}}
+:root[data-theme="dark"] .viz-root{
+  color-scheme:dark;
+  --surface-1:#1a1a19; --surface-2:#232322; --border:#3a3a37;
+  --text-primary:#fff; --text-secondary:#c3c2b7; --text-muted:#8e8d84;
+  --me:#d95926; --up:#199e70; --grid:#2e2e2c;
+  --b0:#cde2fb;--b1:#9ec5f4;--b2:#6da7ec;--b3:#3987e5;--b4:#256abf;
+}
+.viz-root{background:var(--surface-1);color:var(--text-primary);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  padding:30px 20px 64px;max-width:1080px;margin:0 auto}
+h1{font-size:25px;margin:0 0 6px;letter-spacing:-.015em}
+.sub{color:var(--text-secondary);font-size:13px;margin:0 0 26px}
+h2{font-size:16px;margin:40px 0 4px}
+.note{color:var(--text-secondary);font-size:12.5px;margin:0 0 14px}
+.note em a{color:inherit}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:20px 0 8px}
+.tile{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:13px 15px}
+.tile .k{font-size:11.5px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em}
+.tile .v{font-size:25px;font-weight:640;margin-top:3px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tile .d{font-size:12px;color:var(--text-secondary);margin-top:2px;font-variant-numeric:tabular-nums}
+.up{color:#0ca30c} .down{color:#d03b3b}
+.scroll{overflow-x:auto} svg{display:block;max-width:100%} text{font-family:inherit}
+.lbl{font-size:11px;fill:var(--text-secondary)}
+.lbl-p{font-size:11.5px;fill:var(--text-primary);font-weight:600}
+.ax{font-size:10.5px;fill:var(--text-muted)}
+.rank{font-size:10.5px;fill:var(--text-muted);font-variant-numeric:tabular-nums}
+.rank-me{font-size:11.5px;fill:var(--me);font-weight:700;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:10px 0 2px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
+.ctrls{display:flex;gap:8px;align-items:center;margin:10px 0 8px;flex-wrap:wrap}
+.ctrls button{font:inherit;font-size:12.5px;padding:3px 11px;border-radius:999px;cursor:pointer;
+  background:var(--surface-2);color:var(--text-primary);border:1px solid var(--border)}
+.cnt{font-size:12.5px;color:var(--text-secondary)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:3px 9px 3px 5px;border-radius:999px;
+  cursor:pointer;border:1px solid var(--border);background:var(--surface-2);color:var(--text-secondary);user-select:none}
+.chip img{width:14px;height:14px;object-fit:contain;border-radius:3px}
+.chip .sw{width:8px;height:8px;border-radius:2px;background:var(--b2)}
+.chip.me .sw{background:var(--me)}
+.chip.off{opacity:.38;text-decoration:line-through}
+.chip.me{color:var(--text-primary);font-weight:600;border-color:var(--me)}
+.ser{cursor:pointer}
+svg.focus .ser{opacity:.18;transition:opacity .1s}
+svg.focus .ser:hover{opacity:1}
+svg.focus .ser:hover .ln{stroke-width:3.5}
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums;margin-top:8px}
+th,td{padding:5px 9px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap}
+th:first-child,td:first-child,td.dm{text-align:left}
+td.rk{color:var(--text-muted);width:1%}
+tr.me td{font-weight:640;background:color-mix(in srgb,var(--me) 8%,transparent)}
+tr.me td.rk{color:var(--me)}
+td.dm img{width:15px;height:15px;object-fit:contain;vertical-align:-3px;margin-right:6px;border-radius:3px}
+td.dm a{color:inherit;text-decoration:none;border-bottom:1px solid var(--border)}
+th{color:var(--text-secondary);font-weight:560;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em}
+details{margin-top:12px} summary{cursor:pointer;color:var(--text-secondary);font-size:13px}
+.tip{position:fixed;pointer-events:none;background:var(--surface-2);color:var(--text-primary);
+  border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12.5px;opacity:0;
+  transition:opacity .1s;z-index:9;box-shadow:0 4px 14px rgba(0,0,0,.14);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.foot{color:var(--text-muted);font-size:11.5px;margin-top:34px;border-top:1px solid var(--border);padding-top:12px}
+</style>
+
+<div class="viz-root">
+<h1>__TITLE__</h1>
+<p class="sub" id="sub"></p>
+<div class="tiles" id="tiles"></div>
+
+<h2>Monthly visits</h2>
+<p class="note">SimilarWeb estimate, log scale. Root-domain figures include subdomains.</p>
+<div class="legend"><span><i style="background:var(--me)"></i><b id="lgme"></b></span><span><i style="background:var(--b2)"></i>Others</span></div>
+<div class="scroll"><svg id="dot"></svg></div>
+
+<h2>Three-month trend</h2>
+<p class="note">Indexed to the first month = 100. Click any product below to hide it.</p>
+<div class="ctrls"><button id="all">All</button><button id="none">None</button><button id="only">Focus only</button><span id="cnt" class="cnt"></span></div>
+<div class="chips" id="chips"></div>
+<div class="scroll"><svg id="slope"></svg></div>
+
+<h2>Organic search traffic</h2>
+<p class="note">Ahrefs estimate of search-driven visits only. Different basis from total visits above — the two are not additive.</p>
+<div class="scroll"><svg id="dot2"></svg></div>
+
+<h2>Domain Rating</h2>
+<p class="note">A bounded 0–100 backlink-authority score. The one structural metric here: a single viral page moves traffic, never DR.<br>
+<em>Domain Rating by <a href="https://ahrefs.com/" target="_blank" rel="noopener">Ahrefs</a></em></p>
+<div class="scroll"><svg id="bars"></svg></div>
+
+<h2>Organic traffic over time</h2>
+<p class="note">Log scale, all series overlaid. Click a line to hide it; hover to isolate it.</p>
+<div class="ctrls"><button id="all2">All</button><button id="none2">None</button><button id="only2">Focus only</button><span id="cnt2" class="cnt"></span></div>
+<div class="chips" id="chips2"></div>
+<div class="scroll"><svg id="line"></svg></div>
+
+<details><summary>Full data table</summary><div class="scroll"><table id="tbl"></table></div></details>
+<p class="foot" id="foot"></p>
+<div class="tip" id="tip"></div>
+</div>
+
+<script>__DATA__</script>
+<script>
+const $=s=>document.querySelector(s), ME=DATA.focus;
+const fmt=v=>v==null?'—':v>=1000?(v/1000).toFixed(v>=10000?0:1)+'M':v>=1?Math.round(v)+'K':(v*1000).toFixed(0);
+const tip=$('#tip'), S=(t,a)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',t);for(const k in a)n.setAttribute(k,a[k]);return n};
+function hook(el,html){
+  el.addEventListener('pointerenter',()=>{tip.innerHTML=html;tip.style.opacity=1});
+  el.addEventListener('pointermove',e=>{tip.style.left=Math.min(e.clientX+14,innerWidth-200)+'px';tip.style.top=(e.clientY-40)+'px'});
+  el.addEventListener('pointerleave',()=>tip.style.opacity=0);
+}
+const ramp=(i,n)=>`var(--b${n<2?2:Math.round(i/(n-1)*4)})`;
+const DOMS=Object.keys(DATA.sw);
+const SWM=[...new Set(Object.values(DATA.sw).flatMap(v=>Object.keys(v)))].sort().slice(-3);
+const AHMS=[...new Set(Object.values(DATA.ah).flatMap(v=>Object.keys(v)))].sort();
+const AL=AHMS[AHMS.length-1];
+$('#lgme').textContent=ME;
+$('#sub').textContent=`${DOMS.length} products · visits through ${SWM[2]} · organic and DR through ${AL}`;
+$('#foot').textContent=`SimilarWeb and Ahrefs are third-party estimates, not measured truth, and are least reliable for low-traffic sites. Generated ${DATA.generated_at.slice(0,10)}.`;
+
+function dotPlot(sel,items,unit){
+  const W=980,rh=20,PT=24,PB=32,L=196,R=64,H=PT+items.length*rh+PB;
+  const s=$(sel);s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('width',W);s.setAttribute('height',H);
+  const vals=items.map(r=>Math.max(r.v,.5));
+  const lo=Math.log10(Math.min(...vals)),hi=Math.log10(Math.max(...vals));
+  const x=v=>L+(Math.log10(Math.max(v,.5))-lo)/((hi-lo)||1)*(W-L-R);
+  for(let e=Math.ceil(lo);e<=Math.floor(hi);e++){
+    const px=x(Math.pow(10,e));
+    s.appendChild(S('line',{x1:px,x2:px,y1:PT-8,y2:H-PB+4,stroke:'var(--grid)','stroke-width':1}));
+    const t=S('text',{x:px,y:H-PB+18,'text-anchor':'middle',class:'ax'});t.textContent=fmt(Math.pow(10,e));s.appendChild(t);
+  }
+  items.forEach((r,i)=>{
+    const y=PT+i*rh+rh/2, mine=r.d===ME, col=mine?'var(--me)':ramp(i,items.length);
+    s.appendChild(S('line',{x1:L,x2:x(r.v),y1:y,y2:y,stroke:'var(--grid)','stroke-width':1}));
+    const g=S('g',{});
+    const rk=S('text',{x:22,y:y+4,'text-anchor':'end',class:mine?'rank-me':'rank'});rk.textContent=i+1;g.appendChild(rk);
+    if(LOGOS[r.d]) g.appendChild(S('image',{href:LOGOS[r.d],x:L-24,y:y-8,width:16,height:16,preserveAspectRatio:'xMidYMid meet'}));
+    const a=S('a',{href:'https://'+r.d,target:'_blank',rel:'noopener'});
+    const n=S('text',{x:L-30,y:y+4,'text-anchor':'end',class:mine?'lbl-p':'lbl'});n.textContent=r.d;a.appendChild(n);g.appendChild(a);
+    g.appendChild(S('circle',{cx:x(r.v),cy:y,r:mine?6:4.5,fill:col,stroke:'var(--surface-1)','stroke-width':2}));
+    const v=S('text',{x:x(r.v)+11,y:y+4,class:mine?'lbl-p':'lbl'});v.textContent=fmt(r.v);g.appendChild(v);
+    hook(g,`<b>${r.d}</b><br>${unit} ${fmt(r.v)}${r.ch!=null?`<br>MoM ${r.ch>=0?'+':''}${r.ch.toFixed(1)}%`:''}`);
+    s.appendChild(g);
+  });
+}
+const rows=DOMS.map(d=>({d,v:DATA.sw[d][SWM[2]],prev:DATA.sw[d][SWM[1]],j:DATA.sw[d][SWM[0]]}))
+  .filter(r=>r.v>0).sort((a,b)=>b.v-a.v).map(r=>({...r,ch:r.prev?((r.v/r.prev-1)*100):null}));
+dotPlot('#dot',rows,SWM[2]+' visits');
+const ahRows=DOMS.map(d=>({d,v:DATA.ah[d]?.[AL]})).filter(r=>r.v>0).sort((a,b)=>b.v-a.v);
+dotPlot('#dot2',ahRows.map(r=>({...r,ch:DATA.ah[r.d]?.[AHMS[AHMS.length-2]]?((r.v/DATA.ah[r.d][AHMS[AHMS.length-2]]-1)*100):null})),AL+' organic');
+
+const drRows=Object.entries(DATA.dr).filter(([,v])=>v!=null).map(([d,v])=>({d,v})).sort((a,b)=>b.v-a.v);
+(()=>{
+  const items=drRows,W=980,rh=20,PT=26,PB=30,L=196,R=54,H=PT+items.length*rh+PB;
+  const s=$('#bars');s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('width',W);s.setAttribute('height',H);
+  const x=v=>L+v/100*(W-L-R);
+  [0,25,50,75,100].forEach(v=>{
+    s.appendChild(S('line',{x1:x(v),x2:x(v),y1:PT-8,y2:H-PB+4,stroke:'var(--grid)','stroke-width':1}));
+    const t=S('text',{x:x(v),y:H-PB+18,'text-anchor':'middle',class:'ax'});t.textContent=v;s.appendChild(t);
+  });
+  items.forEach((r,i)=>{
+    const y=PT+i*rh, mine=r.d===ME, col=mine?'var(--me)':ramp(i,items.length);
+    const g=S('g',{});
+    const rk=S('text',{x:22,y:y+rh/2+4,'text-anchor':'end',class:mine?'rank-me':'rank'});rk.textContent=i+1;g.appendChild(rk);
+    if(LOGOS[r.d]) g.appendChild(S('image',{href:LOGOS[r.d],x:L-24,y:y+rh/2-8,width:16,height:16,preserveAspectRatio:'xMidYMid meet'}));
+    const a=S('a',{href:'https://'+r.d,target:'_blank',rel:'noopener'});
+    const n=S('text',{x:L-30,y:y+rh/2+4,'text-anchor':'end',class:mine?'lbl-p':'lbl'});n.textContent=r.d;a.appendChild(n);g.appendChild(a);
+    g.appendChild(S('rect',{x:L,y:y+3,width:Math.max(x(r.v)-L,3),height:rh-8,rx:4,fill:col}));
+    const v=S('text',{x:x(r.v)+9,y:y+rh/2+4,class:mine?'lbl-p':'lbl'});v.textContent=r.v;g.appendChild(v);
+    hook(g,`<b>${r.d}</b><br>DR ${r.v}`);
+    s.appendChild(g);
+  });
+})();
+
+const me=rows.find(r=>r.d===ME), ahMe=ahRows.find(r=>r.d===ME), drMe=drRows.find(r=>r.d===ME);
+$('#tiles').innerHTML=[
+  ['Visits',me?fmt(me.v):'—',me&&me.ch!=null?`${me.ch>=0?'↑':'↓'} ${Math.abs(me.ch).toFixed(1)}% MoM`:'',me&&me.ch>=0?'up':'down'],
+  ['Visits rank',me?`#${rows.indexOf(me)+1} / ${rows.length}`:'—','SimilarWeb',''],
+  ['Organic',ahMe?fmt(ahMe.v):'—',ahMe?`#${ahRows.indexOf(ahMe)+1} / ${ahRows.length}`:'','' ],
+  ['Domain Rating',drMe?String(drMe.v):'—',drMe?`#${drRows.indexOf(drMe)+1} / ${drRows.length}`:'','']
+].map(([k,v,d,c])=>`<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="d ${c}">${d}</div></div>`).join('');
+
+const SLOPE=rows.filter(r=>r.j>0&&r.prev>0).map(r=>({...r,g:r.v/r.j})).sort((a,b)=>b.g-a.g), OFF=new Set();
+function drawSlope(){
+  const s=$('#slope');s.textContent='';
+  const on=SLOPE.filter(r=>!OFF.has(r.d));
+  $('#cnt').textContent=`${on.length} / ${SLOPE.length} shown`;
+  const W=980,H=380,PT=22,PB=34,L=48,R=190;
+  s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('width',W);s.setAttribute('height',H);
+  if(!on.length) return;
+  const idx=r=>[r.j,r.prev,r.v].map(v=>v/r.j*100);
+  const flat=on.flatMap(idx), lo=Math.min(...flat,100), hi=Math.max(...flat,100);
+  const y=v=>PT+(hi-v)/((hi-lo)||1)*(H-PT-PB), x=i=>L+i*((W-L-R)/2);
+  [...new Set([Math.round(hi),100,Math.round(lo)])].forEach(v=>{
+    s.appendChild(S('line',{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:'var(--grid)','stroke-width':v===100?1.5:1,'stroke-dasharray':v===100?'':'3 3'}));
+    const t=S('text',{x:L-8,y:y(v)+4,'text-anchor':'end',class:'ax'});t.textContent=v;s.appendChild(t);
+  });
+  SWM.forEach((m,i)=>{const t=S('text',{x:x(i),y:H-PB+20,'text-anchor':'middle',class:'ax'});t.textContent=m;s.appendChild(t)});
+  const sorted=[...on].sort((a,b)=>b.g-a.g);
+  const named=new Set([...sorted.slice(0,3),...sorted.slice(-3)].map(r=>r.d)); named.add(ME);
+  const ends=on.map(r=>({r,p:idx(r)})).sort((a,b)=>b.p[2]-a.p[2]);
+  let lastY=-1e9;
+  ends.forEach(e=>{if(!named.has(e.r.d))return;let ly=y(e.p[2]);if(ly<lastY+15)ly=lastY+15;e.ly=ly;lastY=ly});
+  ends.forEach(({r,p,ly})=>{
+    const mine=r.d===ME, col=mine?'var(--me)':(r.g>=1?'var(--up)':ramp(ends.findIndex(z=>z.r.d===r.d),ends.length));
+    const g=S('g',{class:'ser'});
+    g.appendChild(S('polyline',{points:p.map((v,i)=>`${x(i)},${y(v)}`).join(' '),fill:'none',stroke:col,
+      'stroke-width':mine?3.5:1.8,'stroke-linecap':'round','stroke-linejoin':'round',opacity:mine?1:.72}));
+    p.forEach((v,i)=>g.appendChild(S('circle',{cx:x(i),cy:y(v),r:mine?5.5:3.2,fill:col,stroke:'var(--surface-1)','stroke-width':mine?2:1.4})));
+    if(ly!=null){
+      g.appendChild(S('line',{x1:x(2)+7,x2:W-R+2,y1:y(p[2]),y2:ly-4,stroke:col,'stroke-width':1,opacity:.45}));
+      if(LOGOS[r.d]) g.appendChild(S('image',{href:LOGOS[r.d],x:W-R+6,y:ly-12,width:14,height:14,preserveAspectRatio:'xMidYMid meet'}));
+      const t=S('text',{x:W-R+(LOGOS[r.d]?24:6),y:ly,class:mine?'lbl-p':'lbl'});
+      t.textContent=r.d+'  '+(p[2]>=100?'+':'')+(p[2]-100).toFixed(0)+'%';g.appendChild(t);
+    }
+    hook(g,`<b>${r.d}</b><br>`+SWM.map((m,i)=>`${m} ${fmt([r.j,r.prev,r.v][i])}`).join('<br>'));
+    s.appendChild(g);
+  });
+}
+const SERIES=ahRows.map(r=>({d:r.d,pts:AHMS.map((m,i)=>({i,m,v:DATA.ah[r.d]?.[m]})).filter(p=>p.v>0)}))
+  .filter(x=>x.pts.length>1), OFF2=new Set();
+function drawLine(){
+  const s=$('#line');s.textContent='';
+  const on=SERIES.filter(x=>!OFF2.has(x.d));
+  $('#cnt2').textContent=`${on.length} / ${SERIES.length} shown`;
+  const W=980,H=430,PT=18,PB=44,L=60,R=178;
+  s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('width',W);s.setAttribute('height',H);
+  if(!on.length) return;
+  const vals=on.flatMap(x=>x.pts.map(p=>p.v));
+  const lo=Math.log10(Math.min(...vals)), hi=Math.log10(Math.max(...vals)), span=(hi-lo)||1;
+  const y=v=>PT+(hi-Math.log10(Math.max(v,1e-3)))/span*(H-PT-PB), x=i=>L+i/((AHMS.length-1)||1)*(W-L-R);
+  for(let e=Math.floor(lo);e<=Math.ceil(hi);e++){
+    const py=y(Math.pow(10,e)); if(py<PT-2||py>H-PB+2) continue;
+    s.appendChild(S('line',{x1:L,x2:W-R,y1:py,y2:py,stroke:'var(--grid)','stroke-width':1}));
+    const t=S('text',{x:L-8,y:py+4,'text-anchor':'end',class:'ax'});t.textContent=fmt(Math.pow(10,e));s.appendChild(t);
+  }
+  s.appendChild(S('line',{x1:L,x2:W-R,y1:H-PB,y2:H-PB,stroke:'var(--border)','stroke-width':1.5}));
+  AHMS.forEach((m,i)=>{ if(i%3) return;
+    s.appendChild(S('line',{x1:x(i),x2:x(i),y1:H-PB,y2:H-PB+5,stroke:'var(--border)','stroke-width':1}));
+    const t=S('text',{x:x(i),y:H-PB+19,'text-anchor':'middle',class:'ax'});t.textContent=m.slice(2);s.appendChild(t);
+  });
+  const ends=on.map(x=>({...x,last:x.pts[x.pts.length-1]})).sort((a,b)=>b.last.v-a.last.v);
+  const named=new Set([...ends.slice(0,5).map(x=>x.d),ME]);
+  let lastY=-1e9;
+  ends.forEach(x=>{if(!named.has(x.d))return;let ly=y(x.last.v);if(ly<lastY+15)ly=lastY+15;x.ly=ly;lastY=ly});
+  ends.forEach((x,xi)=>{
+    const mine=x.d===ME, col=mine?'var(--me)':ramp(xi,ends.length);
+    const pts=x.pts.map(p=>`${x2(p.i)},${y(p.v)}`).join(' ');
+    const g=S('g',{class:'ser'});
+    g.appendChild(S('polyline',{points:pts,fill:'none',stroke:'transparent','stroke-width':11}));
+    g.appendChild(S('polyline',{points:pts,fill:'none',stroke:col,class:'ln',
+      'stroke-width':mine?3.5:1.6,'stroke-linecap':'round','stroke-linejoin':'round',opacity:mine?1:.6}));
+    g.appendChild(S('circle',{cx:x2(x.last.i),cy:y(x.last.v),r:mine?5.5:3,fill:col,stroke:'var(--surface-1)','stroke-width':mine?2:1.4}));
+    if(x.ly!=null){
+      g.appendChild(S('line',{x1:x2(x.last.i)+6,x2:W-R+2,y1:y(x.last.v),y2:x.ly-4,stroke:col,'stroke-width':1,opacity:.45}));
+      if(LOGOS[x.d]) g.appendChild(S('image',{href:LOGOS[x.d],x:W-R+6,y:x.ly-12,width:14,height:14,preserveAspectRatio:'xMidYMid meet'}));
+      const a=S('a',{href:'https://'+x.d,target:'_blank',rel:'noopener'});
+      const t=S('text',{x:W-R+(LOGOS[x.d]?24:6),y:x.ly,class:mine?'lbl-p':'lbl'});
+      t.textContent=x.d+'  '+fmt(x.last.v);a.appendChild(t);g.appendChild(a);
+    }
+    const peak=x.pts.reduce((m,p)=>p.v>m.v?p:m,x.pts[0]);
+    hook(g,`<b>${x.d}</b><br>${x.last.m} ${fmt(x.last.v)}<br>peak ${fmt(peak.v)} (${peak.m})<br><span style="opacity:.7">click to hide</span>`);
+    g.addEventListener('click',ev=>{if(ev.target.closest('a'))return;ev.preventDefault();OFF2.add(x.d);drawChips2();drawLine();tip.style.opacity=0});
+    g.addEventListener('pointerenter',()=>s.classList.add('focus'));
+    g.addEventListener('pointerleave',()=>s.classList.remove('focus'));
+    s.appendChild(g);
+  });
+  function x2(i){return x(i)}
+}
+const chipHTML=(d,off)=>`<span class="chip ${d===ME?'me':''} ${off?'off':''}" data-d="${d}">`
+  +(LOGOS[d]?`<img src="${LOGOS[d]}" alt="">`:`<span class="sw"></span>`)+d+'</span>';
+function drawChips(){$('#chips').innerHTML=SLOPE.map(r=>chipHTML(r.d,OFF.has(r.d))).join('')}
+function drawChips2(){$('#chips2').innerHTML=SERIES.map(x=>chipHTML(x.d,OFF2.has(x.d))).join('')}
+$('#chips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;
+  const d=c.dataset.d;OFF.has(d)?OFF.delete(d):OFF.add(d);c.classList.toggle('off',OFF.has(d));drawSlope()});
+$('#chips2').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;
+  const d=c.dataset.d;OFF2.has(d)?OFF2.delete(d):OFF2.add(d);c.classList.toggle('off',OFF2.has(d));drawLine()});
+$('#all').onclick=()=>{OFF.clear();drawChips();drawSlope()};
+$('#none').onclick=()=>{SLOPE.forEach(r=>OFF.add(r.d));drawChips();drawSlope()};
+$('#only').onclick=()=>{OFF.clear();SLOPE.forEach(r=>{if(r.d!==ME)OFF.add(r.d)});drawChips();drawSlope()};
+$('#all2').onclick=()=>{OFF2.clear();drawChips2();drawLine()};
+$('#none2').onclick=()=>{SERIES.forEach(x=>OFF2.add(x.d));drawChips2();drawLine()};
+$('#only2').onclick=()=>{OFF2.clear();SERIES.forEach(x=>{if(x.d!==ME)OFF2.add(x.d)});drawChips2();drawLine()};
+drawChips();drawSlope();drawChips2();drawLine();
+
+$('#tbl').innerHTML='<thead><tr><th>#</th><th>Product</th>'+SWM.map(m=>`<th>${m}</th>`).join('')
+ +'<th>MoM</th><th>Organic</th><th>DR</th></tr></thead><tbody>'
+ +rows.map((r,i)=>`<tr class="${r.d===ME?'me':''}"><td class="rk">${i+1}</td><td class="dm">${LOGOS[r.d]?`<img src="${LOGOS[r.d]}" alt="">`:''}<a href="https://${r.d}" target="_blank" rel="noopener">${r.d}</a></td>
+   <td>${fmt(r.j)}</td><td>${fmt(r.prev)}</td><td>${fmt(r.v)}</td>
+   <td class="${r.ch==null?'':r.ch>=0?'up':'down'}">${r.ch==null?'—':(r.ch>=0?'+':'')+r.ch.toFixed(1)+'%'}</td>
+   <td>${fmt(DATA.ah[r.d]?.[AL])}</td><td>${DATA.dr[r.d]??'—'}</td></tr>`).join('')+'</tbody>';
+</script>
