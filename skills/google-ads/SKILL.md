@@ -221,9 +221,11 @@ Quality Score is determined by three factors. Optimize each:
 ### Bidding Best Practices
 - Start with Maximize Conversions (no target) for new campaigns
 - Switch to Target CPA after 50+ conversions in 30 days
-- Set Target CPA at 20% above your actual average CPA, then decrease gradually
+- Set Target CPA at 20% above your actual **non-brand** average CPA — not the blended account average (see the brand/non-brand note below) — then decrease gradually
 - Never change bidding strategy and budget simultaneously
 - Allow 2 weeks of learning after any bidding change
+
+> **Separate brand from non-brand before setting any CPA/ROAS target.** Branded search (queries containing the company or product name) is demand *capture* — cheap by construction and largely non-incremental, since those users were already looking for you. Blending it into your account average pulls the target CPA down and makes non-brand look more efficient than it is, so you under-fund the campaigns actually generating new demand. Report brand separately, set targets off **non-brand**, and never treat a low brand CPA as a win unless it's proven with an incrementality (holdout / geo-experiment) test.
 
 ## Output Format
 
