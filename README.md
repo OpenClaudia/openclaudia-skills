@@ -286,10 +286,11 @@ All API keys are optional — skills work without them but provide richer data w
 
 ## Works With Any AI Coding Agent
 
-OpenClaudia skills are designed for **Claude Code** but also work with:
+OpenClaudia skills are plain markdown, so they work across agents:
 
-- **OpenAI Codex** — drop skills into your agent's tools directory
-- **Cursor / Windsurf** — use as custom instructions or rules
+- **Claude Code** — drop them in `~/.claude/skills/`
+- **OpenAI Codex** — drop them in `~/.codex/skills/`
+- **Grok CLI**, **Gemini CLI**, **Cursor / Windsurf** — use as custom instructions or rules
 - **Any agent** that supports markdown instruction files
 
 ## Contributing
@@ -311,10 +312,8 @@ Look for issues tagged [`help wanted`](https://github.com/OpenClaudia/openclaudi
 
 OpenClaudia is part of a growing ecosystem of AI agent tools:
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the AI coding agent by Anthropic
 - [GEO Guide](https://howtowingeo.com) — how to win at Generative Engine Optimization
 - [PageGun](https://pagegun.com) — AI-powered CMS for content publishing
-- [DetectAIWatermark](https://detectaiwatermark.com/?ref=openclaudia) — detect and remove invisible AI watermarks from your text
 - [wechat-moments](https://github.com/OpenClaudia/wechat-moments) — the scripts behind the `wechat-moments` skill, kept separate because they depend on the WeChat desktop client rather than a marketing API
 
 ## Sponsors
