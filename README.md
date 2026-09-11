@@ -101,6 +101,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | Skill | Description |
 |-------|-------------|
 | `write-blog` | Generate SEO-optimized blog posts |
+| `publish-article` | Pre-publish gates for shipping an article: searched-for title, real author, licensed image, linked sources, dofollow check |
 | `write-landing` | Create high-converting landing page copy |
 | `copywriting` | Marketing copy for any page type |
 | `copy-editing` | Line-by-line copy polish and improvement |
