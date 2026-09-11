@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The open-source marketing toolkit for AI coding agents.</strong><br/>
-  75 modular skills that turn Claude Code into a full marketing department.
+  77 modular skills that turn your AI coding agent into a full marketing department.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 75 marketing skills
+# Install all 77 marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
