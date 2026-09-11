@@ -312,6 +312,7 @@ Look for issues tagged [`help wanted`](https://github.com/OpenClaudia/openclaudi
 
 OpenClaudia is part of a growing ecosystem of AI agent tools:
 
+- [Enception AI](https://enception.ai) — SaaS for influencing your AI visibility
 - [GEO Guide](https://howtowingeo.com) — how to win at Generative Engine Optimization
 - [PageGun](https://pagegun.com) — AI-powered CMS for content publishing
 - [wechat-moments](https://github.com/OpenClaudia/wechat-moments) — the scripts behind the `wechat-moments` skill, kept separate because they depend on the WeChat desktop client rather than a marketing API
