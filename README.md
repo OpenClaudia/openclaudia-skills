@@ -321,7 +321,7 @@ OpenClaudia is part of a growing ecosystem of AI agent tools:
 
 OpenClaudia is proudly sponsored by:
 
-- [Free AI Slides Maker](https://chatslide.ai) — AI-powered presentation maker
+- [AI slides tool for education, research, and healthcare](https://chatslide.ai) — ChatSlide
 - [Makeform.ai](https://makeform.ai) — AI form builder, AI survey builder, and AI survey maker
 
 ## Author
