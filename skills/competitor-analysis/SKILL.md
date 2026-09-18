@@ -13,7 +13,7 @@ The following API keys enable richer data collection. All are optional -- the fr
 
 - `SEMRUSH_API_KEY` - Domain overview, organic keywords, competitor discovery, traffic estimates
 - `SERPAPI_API_KEY` - Real-time SERP competitive analysis, ad copy extraction
-- `SERPINGAPI_API_KEY` - Real-time organic SERP positions and SERP features (free tier: 1,000 searches/month, no card)
+- `SERPINGAPI_API_KEY` - Real-time organic SERP positions and SERP features (free tier available)
 - `SCRAPINGBEE_API_KEY` - Scrape competitor pages that block direct fetching
 
 ### SemRush API (if SEMRUSH_API_KEY available)
@@ -67,7 +67,7 @@ The response `ads` array contains: `position`, `title`, `link`, `displayed_link`
 
 ### Serping API (if SERPINGAPI_API_KEY available)
 
-**SERP Competitive Analysis** - Same use as SerpAPI above, for organic results and SERP features (web search only — no `ads` or `shopping_results`). Free tier is 1,000 searches/month with no card, so it works when no SerpAPI key is configured:
+**SERP Competitive Analysis** - Same use as SerpAPI above, for organic results and SERP features (web search only — no `ads` or `shopping_results`). Also usable when no SerpAPI key is configured:
 ```bash
 # Real-time SERP for competitive keywords
 curl -s -X POST "https://api.serpingapi.com/v1/search" \

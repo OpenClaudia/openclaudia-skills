@@ -13,7 +13,7 @@ Optional API keys for enriched data (the skill can work without any of them usin
 - `SEMRUSH_API_KEY` - for keyword and organic results data
 - `SERPAPI_API_KEY` - for real-time Google SERP data including SERP features
 - `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` - for advanced SERP data
-- `SERPINGAPI_API_KEY` - for real-time Google SERP data (free tier: 1,000 searches/month, no card)
+- `SERPINGAPI_API_KEY` - for real-time Google SERP data (free tier available)
 
 ## Analysis Process
 
@@ -98,7 +98,7 @@ Location codes: 2840 = US, 2826 = UK, 2124 = Canada, 2036 = Australia. Change `l
 
 **Method F: Serping API (if SERPINGAPI_API_KEY available)**
 
-Real-time Google SERP data as Serper-style JSON from a single endpoint. The free Reader plan includes 1,000 searches per month with no credit card, so this works for a first run without a deposit. Get a key at https://serpingapi.com and set `SERPINGAPI_API_KEY`.
+Real-time Google SERP data as Serper-style JSON from a single endpoint. Get a key at https://serpingapi.com (free tier available) and set `SERPINGAPI_API_KEY`.
 
 ```bash
 # Real-time Google SERP data via Serping API (POST, JSON body)

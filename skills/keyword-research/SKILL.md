@@ -352,9 +352,9 @@ curl -s "https://serpapi.com/search.json?q={keyword}&api_key=${SERPAPI_API_KEY}&
 
 **Note:** SerpAPI charges per search. Use it strategically for your highest-priority keywords rather than for bulk research. Pair it with SemRush for volume data and DataForSEO for bulk lookups.
 
-### Serping API (People Also Ask & Related Searches — free tier)
+### Serping API (People Also Ask & Related Searches)
 
-If `SERPINGAPI_API_KEY` is available, use Serping API (https://serpingapi.com) for the same "People Also Ask" and related-searches data from live Google SERPs. The free Reader plan includes 1,000 searches per month with no credit card, so it is a good default when no SerpAPI key is set. Paid plans are flat monthly (from $49 for 20,000 searches).
+If `SERPINGAPI_API_KEY` is available, use Serping API (https://serpingapi.com) for the same "People Also Ask" and related-searches data from live Google SERPs. A free tier is available.
 
 **Search Endpoint:**
 
