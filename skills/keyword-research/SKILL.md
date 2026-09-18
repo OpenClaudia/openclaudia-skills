@@ -351,3 +351,47 @@ curl -s "https://serpapi.com/search.json?q={keyword}&api_key=${SERPAPI_API_KEY}&
 - `device=desktop` or `device=mobile` - Desktop vs mobile SERPs (mobile may show different PAA questions)
 
 **Note:** SerpAPI charges per search. Use it strategically for your highest-priority keywords rather than for bulk research. Pair it with SemRush for volume data and DataForSEO for bulk lookups.
+
+### Serping API (People Also Ask & Related Searches — free tier)
+
+If `SERPINGAPI_API_KEY` is available, use Serping API (https://serpingapi.com) for the same "People Also Ask" and related-searches data from live Google SERPs. The free Reader plan includes 1,000 searches per month with no credit card, so it is a good default when no SerpAPI key is set. Paid plans are flat monthly (from $49 for 20,000 searches).
+
+**Search Endpoint:**
+
+```bash
+# Get SERP data including People Also Ask and related searches
+curl -s -X POST "https://api.serpingapi.com/v1/search" \
+  -H "X-API-Key: ${SERPINGAPI_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"q": "{keyword}", "gl": "us", "hl": "en", "num": 10}'
+```
+
+**Parsing People Also Ask:**
+
+```bash
+# Extract People Also Ask questions
+curl -s -X POST "https://api.serpingapi.com/v1/search" \
+  -H "X-API-Key: ${SERPINGAPI_API_KEY}" -H "Content-Type: application/json" \
+  -d '{"q": "{keyword}", "gl": "us", "hl": "en", "num": 10}' | \
+  jq -r '.peopleAlsoAsk[] | {question, snippet, link, title}'
+```
+
+Key response sections (present only when Google shows them):
+- **`peopleAlsoAsk`** - Array of "People Also Ask" questions with snippets and source URLs
+- **`relatedSearches`** - Array of `{ "query": ... }` objects that Google suggests
+- **`organic`** - Organic results with `position`, `title`, `link`, `snippet`
+- **`answerBox`** / **`knowledgeGraph`** - Featured snippet and knowledge panel, when present
+
+**Parsing Related Searches:**
+
+```bash
+# Extract related searches for content ideation
+curl -s -X POST "https://api.serpingapi.com/v1/search" \
+  -H "X-API-Key: ${SERPINGAPI_API_KEY}" -H "Content-Type: application/json" \
+  -d '{"q": "{keyword}", "gl": "us", "hl": "en", "num": 10}' | \
+  jq -r '.relatedSearches[] | .query'
+```
+
+Use the data exactly as described for SerpAPI above (FAQ headings, gap discovery, keyword expansion, intent validation, clustering).
+
+**Additional Serping API parameters:** `location` (e.g. `"Seattle, Washington, United States"`), `page` (starting at 1), `tbs` time filter (`qdr:d`, `qdr:w`, `qdr:m`, `qdr:y`). Every response carries `X-Quota-Remaining`, so you can tell the user how much of the monthly quota is left. Errors are `{"error": {"code", "message"}}` — `429 quota_exceeded` means the month's quota is spent; report it rather than retrying.

@@ -227,6 +227,9 @@ SERPAPI_API_KEY=your_key_here
 DATAFORSEO_LOGIN=your_login
 DATAFORSEO_PASSWORD=your_password
 
+# Serping API (serp-analyzer, keyword-research, competitor-analysis — free tier, no card)
+SERPINGAPI_API_KEY=your_key_here
+
 # Brand.dev (brand-monitor)
 BRANDDEV_API_KEY=your_key_here
 
