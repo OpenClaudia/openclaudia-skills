@@ -13,6 +13,7 @@ Optional API keys for enriched data (the skill can work without any of them usin
 - `SEMRUSH_API_KEY` - for keyword and organic results data
 - `SERPAPI_API_KEY` - for real-time Google SERP data including SERP features
 - `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` - for advanced SERP data
+- `SERPINGAPI_API_KEY` - for real-time Google SERP data (free tier: 1,000 searches/month, no card)
 
 ## Analysis Process
 
@@ -94,6 +95,51 @@ The response provides:
 - `result[0].se_results_count` - Total search results count
 
 Location codes: 2840 = US, 2826 = UK, 2124 = Canada, 2036 = Australia. Change `location_code` for geo-targeted analysis.
+
+**Method F: Serping API (if SERPINGAPI_API_KEY available)**
+
+Real-time Google SERP data as Serper-style JSON from a single endpoint. The free Reader plan includes 1,000 searches per month with no credit card, so this works for a first run without a deposit. Get a key at https://serpingapi.com and set `SERPINGAPI_API_KEY`.
+
+```bash
+# Real-time Google SERP data via Serping API (POST, JSON body)
+curl -s -X POST "https://api.serpingapi.com/v1/search" \
+  -H "X-API-Key: ${SERPINGAPI_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"q": "{keyword}", "gl": "us", "hl": "en", "num": 20}'
+```
+
+The JSON response includes (sections appear only when Google returns them):
+- `organic` - Array of organic listings with `position`, `title`, `link`, `snippet` (sometimes `sitelinks`, `date`, `rating`)
+- `peopleAlsoAsk` - People Also Ask questions with `question`, `snippet`, `title`, `link`
+- `answerBox` - Featured snippet / direct answer
+- `knowledgeGraph` - Knowledge panel data with `title`, `type`, `description`, `attributes`
+- `relatedSearches` - Related search queries as `{ "query": ... }`
+- `searchParameters` - Echo of the parameters the search ran with
+
+Parse example:
+```bash
+# Extract organic results
+curl -s -X POST "https://api.serpingapi.com/v1/search" \
+  -H "X-API-Key: ${SERPINGAPI_API_KEY}" -H "Content-Type: application/json" \
+  -d '{"q": "{keyword}", "gl": "us", "hl": "en", "num": 20}' | \
+  jq '.organic[] | {position, title, link, snippet}'
+
+# Extract People Also Ask questions
+curl -s -X POST "https://api.serpingapi.com/v1/search" \
+  -H "X-API-Key: ${SERPINGAPI_API_KEY}" -H "Content-Type: application/json" \
+  -d '{"q": "{keyword}", "gl": "us", "hl": "en", "num": 20}' | \
+  jq '.peopleAlsoAsk[] | {question, snippet}'
+
+# Check for featured snippet / knowledge graph
+curl -s -X POST "https://api.serpingapi.com/v1/search" \
+  -H "X-API-Key: ${SERPINGAPI_API_KEY}" -H "Content-Type: application/json" \
+  -d '{"q": "{keyword}", "gl": "us", "hl": "en", "num": 20}' | \
+  jq '{answerBox, knowledgeGraph: (.knowledgeGraph | {title, type, description})}'
+```
+
+Optional parameters: `location` (e.g. `"Seattle, Washington, United States"`), `page` (starting at 1), `tbs` for a time filter (`qdr:d` day, `qdr:w` week, `qdr:m` month, `qdr:y` year). Web search only — no ads, shopping, or local pack sections.
+
+Errors come back as `{"error": {"code": "...", "message": "..."}}`: `401 invalid_api_key` means the key is wrong or revoked; `429 quota_exceeded` means the monthly quota is used up (resets on the 1st, UTC). In either case tell the user the specific error and fall back to Method B.
 
 ### Step 2: Map SERP Features
 
