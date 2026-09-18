@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The open-source marketing toolkit for AI coding agents.</strong><br/>
-  77 modular skills that turn your AI coding agent into a full marketing department.
+  78 modular skills that turn your AI coding agent into a full marketing department.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 77 marketing skills
+# Install all 78 marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
@@ -142,6 +142,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | Skill | Description | API Required |
 |-------|-------------|--------------|
 | `semrush-research` | SEO & competitive intelligence via SemRush | `SEMRUSH_API_KEY` |
+| `glasser-research` | Live marketing data across search, keywords, ads, communities, companies, and other APIs through one prepaid account | Glasser account |
 | `brand-monitor` | Brand monitoring via Brand.dev | `BRANDDEV_API_KEY` |
 | `brand-research` | Fetch brand info, logos, and industry data via Brand.dev | `BRANDDEV_API_KEY` |
 | `google-analytics` | Pull GA4 reports and insights | Google OAuth |
@@ -152,6 +153,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `youtube-analytics` | YouTube channel and video performance analysis | `YOUTUBE_API_KEY` |
 | `github-stars` | Chart a repo's star growth by day and hour, any timezone | `gh` CLI |
 | `similarweb-traffic` | Fetch website traffic estimates, sources, countries, keywords, and ranks | None |
+| `competitor-traffic-report` | Build an interactive competitor traffic, organic search, and domain authority report | SimilarWeb and Ahrefs access |
 | `ai-citations-report` | GEO report: which AI-search prompts cite a domain (Google AI Overview + ChatGPT), via [Enception](https://www.enception.ai)'s paid API | `ENCEPTION_API_KEY` |
 | `geo-analysis` | Full GEO/SEO client analysis with PDF report (AI visibility, market research, competitors), via [Enception](https://www.enception.ai)'s paid API | `ENCEPTION_ANALYSIS_API_KEY` |
 
@@ -227,8 +229,11 @@ SERPAPI_API_KEY=your_key_here
 DATAFORSEO_LOGIN=your_login
 DATAFORSEO_PASSWORD=your_password
 
-# Serping API (serp-analyzer, keyword-research, competitor-analysis — free tier, no card)
+# Serping API (serp-analyzer, keyword-research, competitor-analysis)
 SERPINGAPI_API_KEY=your_key_here
+
+# Glasser (glasser-research; interactive users can run `glasser login` instead)
+GLASSER_API_KEY=your_key_here
 
 # Brand.dev (brand-monitor)
 BRANDDEV_API_KEY=your_key_here
