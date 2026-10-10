@@ -43,7 +43,7 @@ Node.js 22 or later:
 npm install -g @glasser-ai/cli@latest
 ```
 
-For an interactive session, run `glasser login`. Keep the command active while
+For an interactive session, run `glasser login` ([current setup instructions](https://glasser.ai/SKILL.md?utm_source=openclaudia-skills&utm_medium=skill)). Keep the command active while
 the user approves the matching code in the browser. Relay the fallback URL and
 code when the browser does not open. Never ask the user to paste a key into chat.
 After login, run `glasser balance` again in the environment that will make calls.
