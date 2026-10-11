@@ -10,6 +10,37 @@ Thanks for your interest in contributing! OpenClaudia is an open-source marketin
 - **API integrations** — connect skills to new marketing APIs
 - **Translations** — help make skills work in more languages
 
+Contributions of all of the above are free to submit and free to merge. The one
+case with its own rules is a vendor adding its own product — see below.
+
+## Vendor Integrations (adding your own product)
+
+If you work on the product being added, say so in the PR. We welcome these, and
+the terms depend on one thing: whether an agent can run the documented calls
+without paying.
+
+- **Free to use** — no paid plan, credits, or card needed for the calls the PR
+  documents. Merged free, same review as any other contribution.
+- **Paid product** — any paid tier, credit pack, or subscription is needed to
+  actually use it. The listing is sponsored. Open the PR as usual, note it in the
+  description, and we will reply with sponsorship terms before merging.
+
+This applies to a vendor documenting its own product, not to skills that happen
+to call a paid API. Anyone may add an integration for a product they do not work
+on, free, at any time.
+
+Every vendor integration, free or sponsored, still has to pass:
+
+- **Opt-in** — gated behind its own environment variable, with the skill fully
+  working when the variable is unset.
+- **Self-contained instructions** — the agent's instructions live in this repo.
+  Link vendor docs for humans to read; never tell the agent to fetch its
+  instructions from a URL the vendor can change.
+- **Verified claims** — every endpoint, field, and error code in the PR has to
+  match the live API.
+- **Attribution** — signup links carry OpenClaudia's referral code where the
+  vendor runs a referral program.
+
 ## Creating a New Skill
 
 ### 1. Pick a skill idea
