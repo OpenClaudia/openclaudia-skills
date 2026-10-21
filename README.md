@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The open-source marketing toolkit for AI coding agents.</strong><br/>
-  78 modular skills that turn your AI coding agent into a full marketing department.
+  79 modular skills that turn your AI coding agent into a full marketing department.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 78 marketing skills
+# Install all 79 marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
@@ -200,6 +200,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `stripe-dispute` | Fight Stripe disputes and chargebacks with evidence + counter-dispute |
 | `organize-skills` | Rename a skill library to a naming convention and fix the symlinks + cross-references it breaks |
 | `wechat-moments` | Rank your own WeChat Moments feed — real news above marketing, weighted by who you actually talk to ([separate repo](https://github.com/OpenClaudia/wechat-moments)) |
+| `wechat-read` | Read and search your own WeChat chats from a local plaintext export: threads, search, unreplied, one-day digest |
 
 ### CRM & Outreach (API-Powered)
 | Skill | Description | API Required |
