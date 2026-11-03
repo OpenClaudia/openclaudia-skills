@@ -14,6 +14,7 @@ Optional API keys for enriched data (the skill can work without any of them usin
 - `SERPAPI_API_KEY` - for real-time Google SERP data including SERP features
 - `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` - for advanced SERP data
 - `SERPINGAPI_API_KEY` - for real-time Google SERP data (free tier available)
+- `SERPLY_API_KEY` - for real-time Google SERP data including ads and the AI Overview (free credits available)
 
 ## Analysis Process
 
@@ -140,6 +141,49 @@ curl -s -X POST "https://api.serpingapi.com/v1/search" \
 Optional parameters: `location` (e.g. `"Seattle, Washington, United States"`), `page` (starting at 1), `tbs` for a time filter (`qdr:d` day, `qdr:w` week, `qdr:m` month, `qdr:y` year). Web search only — no ads, shopping, or local pack sections.
 
 Errors come back as `{"error": {"code": "...", "message": "..."}}`: `401 invalid_api_key` means the key is wrong or revoked; `429 quota_exceeded` means the monthly quota is used up (resets on the 1st, UTC). In either case tell the user the specific error and fall back to Method B.
+
+**Method G: Serply (if SERPLY_API_KEY available)**
+
+Real-time Google SERP data from a single GET endpoint, including sponsored results and the AI Overview with its cited sources. Get a key at https://serply.io (free credits on signup) and set `SERPLY_API_KEY`. API reference: https://serply.io/docs
+
+```bash
+# Real-time Google SERP data via Serply (GET, key in the X-Api-Key header)
+curl -s -G "https://api.serply.io/v1/search" \
+  -H "X-Api-Key: ${SERPLY_API_KEY}" \
+  --data-urlencode "q={keyword}" -d num=10 -d gl=us -d hl=en
+```
+
+The JSON response includes (sections are empty when Google does not show them):
+- `results` - Organic listings with `position`, `title`, `link`, `description`, and `metadata.display_url`
+- `ads` - Sponsored results with `title`, `description`, and the advertiser in `metadata.display_url` (`link` is Google's click-tracking URL)
+- `ai_overview` - The AI Overview text in `description`, bullet points in `metadata.details`, and cited pages in `metadata.sources` (`title`, `url`, `source`)
+- `related_searches.text` - Related search queries in `title`
+- `knowledge_graph`, `related_questions`, `places` - Knowledge panel, People Also Ask, and local results when returned
+
+Parse example:
+```bash
+# Extract organic results
+curl -s -G "https://api.serply.io/v1/search" \
+  -H "X-Api-Key: ${SERPLY_API_KEY}" \
+  --data-urlencode "q={keyword}" -d num=10 -d gl=us -d hl=en | \
+  jq '.results[] | {position, title, link, description}'
+
+# Who does the AI Overview cite? (empty when no AI Overview is shown)
+curl -s -G "https://api.serply.io/v1/search" \
+  -H "X-Api-Key: ${SERPLY_API_KEY}" \
+  --data-urlencode "q={keyword}" -d num=10 -d gl=us -d hl=en | \
+  jq '.ai_overview.metadata.sources[]? | {source, url}'
+
+# Which advertisers are bidding on the keyword?
+curl -s -G "https://api.serply.io/v1/search" \
+  -H "X-Api-Key: ${SERPLY_API_KEY}" \
+  --data-urlencode "q={keyword}" -d num=10 -d gl=us -d hl=en | \
+  jq '.ads[] | {title, advertiser: .metadata.display_url}'
+```
+
+Optional parameters: `start` for the next page (`start=10`; positions restart at 1 on each page), `tbs` for a time filter (`qdr:d`, `qdr:w`, `qdr:m`, `qdr:y`), and Google operators such as `site:` inside `q`. Add `-H "X-User-Agent: desktop"` for a desktop SERP (the default is mobile). Keep `num` at 10 or below; each call spends one credit.
+
+A `401` with `{"detail": "Invalid API key"}` means the key is wrong or revoked. On any other error status, or when credits run out, tell the user the specific error and fall back to Method B.
 
 ### Step 2: Map SERP Features
 

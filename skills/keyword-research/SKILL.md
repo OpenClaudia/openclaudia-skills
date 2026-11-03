@@ -395,3 +395,34 @@ curl -s -X POST "https://api.serpingapi.com/v1/search" \
 Use the data exactly as described for SerpAPI above (FAQ headings, gap discovery, keyword expansion, intent validation, clustering).
 
 **Additional Serping API parameters:** `location` (e.g. `"Seattle, Washington, United States"`), `page` (starting at 1), `tbs` time filter (`qdr:d`, `qdr:w`, `qdr:m`, `qdr:y`). Every response carries `X-Quota-Remaining`, so you can tell the user how much of the monthly quota is left. Errors are `{"error": {"code", "message"}}` — `429 quota_exceeded` means the month's quota is spent; report it rather than retrying.
+
+### Serply (Related Searches & AI Overview)
+
+If `SERPLY_API_KEY` is available, use Serply (https://serply.io) for related searches and the AI Overview from live Google SERPs. Free credits are included on signup. API reference: https://serply.io/docs
+
+```bash
+# Get the SERP, including related searches and the AI Overview
+curl -s -G "https://api.serply.io/v1/search" \
+  -H "X-Api-Key: ${SERPLY_API_KEY}" \
+  --data-urlencode "q={keyword}" -d num=10 -d gl=us -d hl=en
+```
+
+Key response sections (empty when Google does not show them):
+- **`related_searches.text`** - Google's related searches, query text in `title`
+- **`ai_overview`** - AI Overview summary in `description`, sub-points in `metadata.details`, cited pages in `metadata.sources`
+- **`results`** - Organic results with `position`, `title`, `link`, `description`
+- **`related_questions`** - People Also Ask, when returned
+
+**Parsing Related Searches:**
+
+```bash
+# Extract related searches for content ideation
+curl -s -G "https://api.serply.io/v1/search" \
+  -H "X-Api-Key: ${SERPLY_API_KEY}" \
+  --data-urlencode "q={keyword}" -d num=10 -d gl=us -d hl=en | \
+  jq -r '.related_searches.text[].title'
+```
+
+The AI Overview's `metadata.details` lists the subtopics Google summarizes for the keyword; treat them like PAA questions for FAQ headings and cluster building. Use the rest exactly as described for SerpAPI above.
+
+**Additional Serply parameters:** `start` for the next page, `tbs` time filter (`qdr:d`, `qdr:w`, `qdr:m`, `qdr:y`), and `-H "X-User-Agent: desktop"` for a desktop SERP (the default is mobile). Each call spends one credit; a `401` means the key is invalid, so report errors rather than retrying.
