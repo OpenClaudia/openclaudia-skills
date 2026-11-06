@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The open-source marketing toolkit for AI coding agents.</strong><br/>
-  78 modular skills that turn your AI coding agent into a full marketing department.
+  79 modular skills that turn your AI coding agent into a full marketing department.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 78 marketing skills
+# Install all 79 marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
@@ -156,6 +156,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `competitor-traffic-report` | Build an interactive competitor traffic, organic search, and domain authority report | SimilarWeb and Ahrefs access |
 | `ai-citations-report` | GEO report: which AI-search prompts cite a domain (Google AI Overview + ChatGPT), via [Enception](https://www.enception.ai)'s paid API | `ENCEPTION_API_KEY` |
 | `geo-analysis` | Full GEO/SEO client analysis with PDF report (AI visibility, market research, competitors), via [Enception](https://www.enception.ai)'s paid API | `ENCEPTION_ANALYSIS_API_KEY` |
+| `cloro-ai-visibility` | Check if ChatGPT, Google AI Mode and Gemini mention or cite a brand, and if Google's AI Overview cites it, per country, via [cloro](https://cloro.dev?utm_source=openclaudia-skills&utm_medium=byok)'s paid API | `CLORO_API_KEY` |
 
 ### Strategy & Planning
 | Skill | Description |
@@ -234,6 +235,9 @@ SERPINGAPI_API_KEY=your_key_here
 
 # Glasser (glasser-research; interactive users can run `glasser login` instead)
 GLASSER_API_KEY=your_key_here
+
+# cloro (cloro-ai-visibility)
+CLORO_API_KEY=your_key_here
 
 # Brand.dev (brand-monitor)
 BRANDDEV_API_KEY=your_key_here
