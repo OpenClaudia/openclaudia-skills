@@ -14,6 +14,7 @@ The following API keys enable richer data collection. All are optional -- the fr
 - `SEMRUSH_API_KEY` - Domain overview, organic keywords, competitor discovery, traffic estimates
 - `SERPAPI_API_KEY` - Real-time SERP competitive analysis, ad copy extraction
 - `SERPINGAPI_API_KEY` - Real-time organic SERP positions and SERP features (free tier available)
+- `SERPLY_API_KEY` - Real-time organic SERP positions, ad copy, and AI Overview citations (free credits available)
 - `SCRAPINGBEE_API_KEY` - Scrape competitor pages that block direct fetching
 
 ### SemRush API (if SEMRUSH_API_KEY available)
@@ -83,6 +84,24 @@ Use this to:
 
 Errors are `{"error": {"code", "message"}}`; on `429 quota_exceeded` tell the user the monthly quota is spent and fall back to WebSearch.
 
+### Serply (if SERPLY_API_KEY available)
+
+**SERP Competitive Analysis** - Same use as SerpAPI above, including sponsored results, plus the AI Overview and the sources it cites:
+```bash
+# Real-time SERP for competitive keywords
+curl -s -G "https://api.serply.io/v1/search" \
+  -H "X-Api-Key: ${SERPLY_API_KEY}" \
+  --data-urlencode "q={commercial_keyword}" -d num=10 -d gl=us -d hl=en
+```
+Use this to:
+- Identify which competitors dominate organic results (parse `results`: `position`, `title`, `link`, `description`)
+- Extract competitor ad copy from `ads` (`title`, `description`, advertiser in `metadata.display_url`)
+- See which competitors Google's AI Overview cites (`ai_overview.metadata.sources[]`: `source`, `url`)
+- Discover related keywords from `related_searches.text[].title`
+- Add `-d tbs=qdr:m` to see who ranked in the last month
+
+A `401` means the key is invalid; on any other error tell the user and fall back to WebSearch.
+
 ### ScrapingBee (if SCRAPINGBEE_API_KEY available)
 
 Use ScrapingBee to scrape competitor pages that block direct fetching via WebFetch (e.g., JavaScript-heavy pages, bot-protected sites, pricing pages):
@@ -116,7 +135,7 @@ Google "[category]" (ads + organic top 10), G2/Capterra "Compare" pages, Reddit/
 
 ## Step 3: SEO Analysis
 
-If `SEMRUSH_API_KEY` is available, use the Domain Overview and Organic Keywords endpoints (see Optional API Integrations above) to populate the profile below with real data. If `SERPAPI_API_KEY` or `SERPINGAPI_API_KEY` is available, supplement with real-time SERP position data. Otherwise, use WebSearch and public tools to estimate.
+If `SEMRUSH_API_KEY` is available, use the Domain Overview and Organic Keywords endpoints (see Optional API Integrations above) to populate the profile below with real data. If `SERPAPI_API_KEY`, `SERPINGAPI_API_KEY`, or `SERPLY_API_KEY` is available, supplement with real-time SERP position data. Otherwise, use WebSearch and public tools to estimate.
 
 For each competitor:
 

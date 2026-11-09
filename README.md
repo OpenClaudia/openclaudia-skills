@@ -232,6 +232,9 @@ DATAFORSEO_PASSWORD=your_password
 # Serping API (serp-analyzer, keyword-research, competitor-analysis)
 SERPINGAPI_API_KEY=your_key_here
 
+# Serply (serp-analyzer, keyword-research, competitor-analysis)
+SERPLY_API_KEY=your_key_here
+
 # Glasser (glasser-research; interactive users can run `glasser login` instead)
 GLASSER_API_KEY=your_key_here
 

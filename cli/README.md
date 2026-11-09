@@ -36,7 +36,7 @@ After installing, open Claude Code and use any skill as a slash command:
 | Skill | Description |
 |-------|-------------|
 | `seo-audit` | Full technical + on-page SEO audit with actionable fixes |
-| `keyword-research` | Keyword research via SemRush, DataForSEO, SerpAPI, Serping API |
+| `keyword-research` | Keyword research via SemRush, DataForSEO, SerpAPI, Serping API, Serply |
 | `serp-analyzer` | Analyze SERP results and ranking factors |
 | `backlink-audit` | Audit backlink profile via SemRush or Ahrefs |
 | `schema-markup` | Generate and validate Schema.org structured data |
@@ -109,6 +109,7 @@ SEMRUSH_API_KEY=          # SEO data (keyword-research, backlink-audit, competit
 AHREFS_API_KEY=           # Backlink data (backlink-audit)
 SERPAPI_API_KEY=           # SERP data (serp-analyzer, keyword-research)
 SERPINGAPI_API_KEY=        # SERP data (serp-analyzer, keyword-research, competitor-analysis)
+SERPLY_API_KEY=            # SERP data incl. ads and AI Overview (serp-analyzer, keyword-research, competitor-analysis)
 BRANDDEV_API_KEY=         # Brand monitoring (brand-monitor)
 UNSPLASH_CLIENT_ID=       # Stock images (write-blog, social-content)
 GOOGLE_CLIENT_ID=         # Google APIs (analytics, search-console, ads)
