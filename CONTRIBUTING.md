@@ -22,8 +22,26 @@ without paying.
 - **Free to use** — no paid plan, credits, or card needed for the calls the PR
   documents. Merged free, same review as any other contribution.
 - **Paid product** — any paid tier, credit pack, or subscription is needed to
-  actually use it. The listing is sponsored. Open the PR as usual, note it in the
-  description, and we will reply with sponsorship terms before merging.
+  actually use it. The listing is sponsored: **$300, one-time, per skill.** Open
+  the PR as usual and note it in the description.
+
+How a sponsored listing goes:
+
+1. **Review first.** The PR gets the same review as any other contribution,
+   including the checks below. Send a test key or test credits so we can run
+   the documented calls against the live API.
+2. **Payment second.** Once the PR passes review, we post a payment link. Paying
+   never buys approval, and a PR that fails review is never asked to pay.
+3. **Merge on payment.** We merge after the payment clears.
+
+A sponsored skill is labelled where readers see it:
+
+- its row in the README skills table ends with **(Sponsored)**, and
+- its `SKILL.md` opens, right after the frontmatter, with:
+  `> **Sponsored:** <Vendor> paid for this listing. OpenClaudia does not endorse it over alternatives.`
+
+A sponsored skill never tells the agent to prefer its product over other
+providers or to steer the user toward a purchase.
 
 This applies to a vendor documenting its own product, not to skills that happen
 to call a paid API. Anyone may add an integration for a product they do not work

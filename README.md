@@ -332,6 +332,8 @@ OpenClaudia is proudly sponsored by:
 - [AI slides tool for education, research, and healthcare](https://chatslide.ai) — ChatSlide
 - [Makeform.ai](https://makeform.ai) — AI form builder, AI survey builder, and AI survey maker
 
+Skills marked **(Sponsored)** in the tables above were added by the company behind the product they call, which paid for the listing. They pass the same review as every other skill. Vendors: see [Vendor Integrations](CONTRIBUTING.md#vendor-integrations-adding-your-own-product) for terms.
+
 ## Author
 
 OpenClaudia is created and maintained by [Quanlai Li](https://quanl.ai) — [Quanl.ai](https://quanl.ai), AI & GEO insights.
